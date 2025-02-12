@@ -1,0 +1,102 @@
+/* Gradient animation for background */
+@keyframes gradientAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  /* Animation for background noise effect */
+  @keyframes noiseAnimation {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 100% 100%;
+    }
+  }
+
+  /* Blur animation */
+  @keyframes blurAnimation {
+    0% {
+      backdrop-filter: blur(0px);
+    }
+    50% {
+      backdrop-filter: blur(10px);
+    }
+    100% {
+      backdrop-filter: blur(0px);
+    }
+  }
+
+  /* Noise overlay */
+  .bg-noise {
+    background: url('https://www.transparenttextures.com/patterns/noise.png') repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  /* Complex Gradient animation with #fc1464 */
+  .animate-gradient {
+    background-size: 400% 400%;
+    animation: gradientAnimation 10s ease infinite;
+  }
+
+  /* Pulse and background effects */
+  .animate-background-pulse {
+    background-size: 400% 400%;
+    animation: gradientAnimation 6s ease-in-out infinite;
+  }
+
+  /* Background blur animation */
+  .animate-blur {
+    animation: blurAnimation 8s ease-in-out infinite;
+  }
+
+  /* Noise Animation */
+  .animate-noise {
+    animation: noiseAnimation 10s linear infinite;
+  }
+
+  /* Custom dark noise texture to overlay on top of the background */
+  .bg-dark-overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  /* Apply a dark gradient with a hint of purple tones for a creative effect */
+  .bg-gradient-dark {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(10, 10, 10, 0.8));
+  }
+
+  /* Focus animation for form fields */
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: #fc1464;
+    box-shadow: 0 0 5px rgba(252, 20, 100, 0.7);
+    transition: all 0.3s ease-in-out;
+  }
+
+  /* Hover and focus effect for the register button */
+  .form-button {
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(252, 20, 100, 0.6);
+  }
+
+  .form-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(252, 20, 100, 0.8);
+    background-color: #f41d72;
+  }
+
+  .form-button:focus {
+    box-shadow: 0 0 25px rgba(252, 20, 100, 1);
+    background-color: #f41d72;
+  }
