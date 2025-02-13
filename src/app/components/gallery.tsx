@@ -10,19 +10,22 @@ export default function Gallery() {
 
   const images = [
     {
-      src: "/placeholder.svg?height=400&width=400",
+      src: "./csea.jpeg",
       alt: "Art piece 1",
-      title: "Ethereal Dreams",
+      title: "CSEA",
+      description: "An abstract piece inspired by nature's harmony.",
     },
     {
-      src: "/placeholder.svg?height=400&width=400",
+      src: "./eye.jpeg",
       alt: "Art piece 2",
-      title: "Urban Symphony",
+      title: "The Eye",
+      description: "A surreal interpretation of the human eye.",
     },
     {
-      src: "/placeholder.svg?height=400&width=400",
+      src: "./github.jpeg",
       alt: "Art piece 3",
-      title: "Digital Nostalgia",
+      title: "Github Campus Club",
+      description: "An illustration of collaboration in the tech community.",
     },
   ]
 
@@ -48,15 +51,18 @@ export default function Gallery() {
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.8, delay: index * 0.2 }}
             >
-              <div className="w-full h-full overflow-hidden">
+              <div className="w-full h-full overflow-hidden relative">
                 <img
                   src={image.src || "/placeholder.svg"}
                   alt={image.alt}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
               </div>
-              <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/60 to-transparent p-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <h3 className="text-xl font-semibold text-white">{image.title}</h3>
+
+              {/* White Background and Description on Hover */}
+              <div className="absolute inset-0 bottom-0 flex flex-col justify-end bg-white p-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <h3 className="text-xl font-semibold text-black">{image.title}</h3>
+                <p className="text-sm text-black mt-2">{image.description}</p>
               </div>
             </motion.div>
           ))}
