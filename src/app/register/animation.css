@@ -1,0 +1,86 @@
+/* Gradient animation for background */
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Animation for background noise effect */
+@keyframes noiseAnimation {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.4; }
+}
+
+/* Blur animation */
+@keyframes blurAnimation {
+  0%, 100% { filter: blur(0px); }
+  50% { filter: blur(2px); }
+}
+
+/* Noise overlay */
+.bg-noise {
+  background-image: url('/path/to/noise.png');
+  background-size: cover;
+}
+
+/* Complex Gradient animation with #fc1464 */
+.animate-gradient {
+  animation: gradientAnimation 15s ease infinite;
+  background: linear-gradient(270deg, #fc1464, #3e3e3e, #000000);
+  background-size: 600% 600%;
+}
+
+/* Pulse and background effects */
+.animate-background-pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Background blur animation */
+.animate-blur {
+  animation: blurAnimation 10s infinite;
+}
+
+/* Noise Animation */
+.animate-noise {
+  animation: noiseAnimation 1s infinite;
+}
+
+/* Custom dark noise texture to overlay on top of the background */
+.bg-dark-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Apply a dark gradient with a hint of purple tones for a creative effect */
+.bg-gradient-dark {
+  background: linear-gradient(135deg, #1a1a1a, #3e3e3e, #fc1464);
+}
+
+/* Focus animation for form fields */
+input:focus, textarea:focus {
+  border-color: #fc1464;
+  box-shadow: 0 0 0 3px rgba(252, 20, 100, 0.5);
+}
+
+/* Hover and focus effect for the register button */
+.form-button {
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.form-button:hover {
+  background-color: #f41d72;
+  transform: scale(1.05);
+}
+
+.form-button:focus {
+  box-shadow: 0 0 0 4px rgba(252, 20, 100, 0.5);
+}
+
+/* Adjusting the dropdown margin-bottom */
+.flex.flex-col.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+/* Alternatively, if you want to directly adjust the submit button margin-top */
+.form-button[type="submit"] {
+  margin-top: 1.5rem;
+}

@@ -39,8 +39,8 @@ export default function LoginPage() {
       </div>
 
       {/* Content Box */}
-      <div className="relative z-10 bg-zinc-900 p-8 rounded-lg shadow-lg max-w-md w-full">
-        <h1 className="text-3xl font-bold mb-6 text-white text-center">Login</h1>
+      <div className="relative z-10 bg-zinc-900 p-6 md:p-8 rounded-lg shadow-lg w-full max-w-xs sm:max-w-sm md:max-w-md">
+        <h1 className="text-2xl md:text-3xl font-bold mb-6 text-white text-center">Login</h1>
 
         {/* Google Sign-In Button */}
         <Button
@@ -51,7 +51,7 @@ export default function LoginPage() {
         </Button>
 
         {/* Register Link */}
-        <p className="text-gray-400 text-center mt-4">
+        <p className="text-gray-400 text-center mt-4 text-sm md:text-base">
           Haven't registered yet?{" "}
           <Link href="/register" className="text-pink-500 hover:underline">
             Register here

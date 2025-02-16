@@ -3,7 +3,6 @@
 import { useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import Link from "next/link"
 
 export default function Hero() {
     const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -108,11 +107,18 @@ export default function Hero() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.4 }}
                 >
-                    <Button asChild>
-                        <Link href="/events">Explore Events</Link>
+                    <Button
+                        onClick={() => {
+                            const section = document.getElementById("portfolio");
+                            if (section) {
+                                section.scrollIntoView({ behavior: "smooth" });
+                            }
+                        }}
+                    >
+                        Explore Events
                     </Button>
                     <Button asChild variant="outline">
-                        <Link href="/register">Register Now</Link>
+                        <a href="/register">Register Now</a>
                     </Button>
                 </motion.div>
             </div>
