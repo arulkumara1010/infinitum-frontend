@@ -46,7 +46,7 @@ const AuthCallback = () => {
                 router.push("/register");
             } else {
                 alert("Please use your PSG Tech email ID.");
-                router.push("/login");
+                router.push("/register");
             }
         } catch (error) {
             console.error("Failed to fetch user profile:", error);
