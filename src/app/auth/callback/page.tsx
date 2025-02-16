@@ -32,8 +32,22 @@ const AuthCallback = () => {
             });
 
             const { email } = response.data;
-            localStorage.setItem("email", email);
-            router.push("/register");
+
+            if (email.endsWith("@psgtech.ac.in")) {
+                const year = `20${email.substring(0, 2)}`;
+                const rollNo = email.substring(0, 6);
+                const currentYear = new Date().getFullYear();
+                const admissionYear = parseInt(year, 10);
+                const yearOption = currentYear - admissionYear;
+
+                localStorage.setItem("email", email);
+                localStorage.setItem("year", yearOption.toString());
+                localStorage.setItem("rollNo", rollNo);
+                router.push("/register");
+            } else {
+                alert("Please use your PSG Tech email ID.");
+                router.push("/login");
+            }
         } catch (error) {
             console.error("Failed to fetch user profile:", error);
             router.push("/register");

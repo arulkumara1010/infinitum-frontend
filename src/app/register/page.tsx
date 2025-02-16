@@ -22,10 +22,14 @@ export default function RegisterPage() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const email = localStorage.getItem("email");
-      if (email) {
+      const year = localStorage.getItem("year");
+      const rollNo = localStorage.getItem("rollNo");
+      if (email && year && rollNo) {
         setFormData((prev) => ({
           ...prev,
           email,
+          year,
+          rollNo,
         }));
       }
     }
