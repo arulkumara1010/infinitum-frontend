@@ -13,10 +13,21 @@ export default function RegisterPage() {
     year: '1',
     phnNo: '',
     source: '',
+    email: '', // Add email to form data
   });
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    const email = localStorage.getItem("email");
+    if (email) {
+      setFormData((prev) => ({
+        ...prev,
+        email,
+      }));
+    }
+  }, []);
 
   // Handle form changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -34,7 +45,7 @@ export default function RegisterPage() {
     setMessage('');
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/register`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,7 +56,7 @@ export default function RegisterPage() {
           department: formData.department,
           year: formData.year,
           phnNo: formData.phnNo,
-          source: formData.source,
+          source: formData.source
         }),
       });
 
@@ -61,6 +72,15 @@ export default function RegisterPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Handle Google login
+  const handleGoogleLogin = () => {
+    const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+    const redirectUri = `${window.location.origin}/auth/callback`;
+    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=token&client_id=${googleClientId}&redirect_uri=${redirectUri}&scope=profile email`;
+
+    window.location.href = googleAuthUrl;
   };
 
   return (
@@ -84,6 +104,7 @@ export default function RegisterPage() {
 
         <button
           className="form-button w-full mt-4 px-6 py-3 rounded-md bg-gray-800 text-white text-lg font-semibold hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-700 transition duration-300 scale-100 hover:scale-105 flex items-center justify-center"
+          onClick={handleGoogleLogin}
         >
           Google Login
         </button>
