@@ -20,7 +20,7 @@ export default function LoginPage() {
     } catch (error:unknown) {
         console.error("Google Sign-in Error:", error);
           }
-      };
+      }
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated Background */}
