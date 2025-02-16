@@ -50,6 +50,13 @@ export default function RegisterPage() {
     setLoading(true);
     setMessage('');
 
+    // Validate required fields
+    if (!formData.name || !formData.rollNo || !formData.department || !formData.year || !formData.phnNo) {
+      setMessage('Please fill in all required fields.');
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await fetch(`${process.env.BACKEND}/api/auth/register`, {
         method: 'POST',
@@ -63,7 +70,6 @@ export default function RegisterPage() {
           year: formData.year,
           phnNo: formData.phnNo,
           source: formData.source,
-          email: formData.email, // Include email in the request
         }),
       });
 
@@ -133,6 +139,7 @@ export default function RegisterPage() {
               <option value="2">2</option>
               <option value="3">3</option>
               <option value="4">4</option>
+              <option value="5">5</option>
             </select>
           </div>
 
