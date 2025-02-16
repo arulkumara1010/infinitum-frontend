@@ -34,8 +34,7 @@ export default function RegisterPage() {
     setMessage('');
 
     try {
-      // Replace the URL with backend endpoint
-      const response = await fetch('https://your-backend-endpoint.com/register', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -106,13 +105,12 @@ export default function RegisterPage() {
               <option value="2">2</option>
               <option value="3">3</option>
               <option value="4">4</option>
-              <option value="5">5</option>
             </select>
           </div>
 
           <FormField label="Phone Number" name="phnNo" value={formData.phnNo} handleChange={handleChange} placeholder="Enter your phone number" />
 
-          <div className="flex flex-col mb-6"> {/* Added margin-bottom to create space */}
+          <div className="flex flex-col mb-6">
             <label className="text-white mb-2">How did you hear about us?</label>
             <select
               name="source"
