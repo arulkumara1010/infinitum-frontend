@@ -31,7 +31,7 @@ const AuthCallback = () => {
     const exchangeTokenForSession = async (access_token: string, provider_token: string) => {
         try {
             const response = await axios.post<AuthResponse>(
-                `${process.env.BACKEND_URL}/api/auth/callback`,
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/callback`,
                 { access_token, provider_token },
                 { withCredentials: true, headers: { "Content-Type": "application/json" } }
             );

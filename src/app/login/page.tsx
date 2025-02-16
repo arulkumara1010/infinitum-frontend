@@ -9,18 +9,42 @@ export default function LoginPage() {
 
   const handleGoogleLogin = async () => {
     try {
-        const response = await fetch(`${process.env.BACKEND_URL}/api/auth/callback`);
-        const data = await response.json();
+        console.log("Backend URL:", process.env.NEXT_PUBLIC_BACKEND_URL);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/callback`);
 
-        if (data.authUrl) {
+        // Log the response text to see what is returned
+        const responseText = await response.text();
+        console.log("Raw response:", responseText);
+
+        if (!response.ok) {
+            console.error("Failed to fetch:", response.statusText);
+            return;
+        }
+
+        let data;
+        try {
+            data = JSON.parse(responseText); // Parse the text manually
+        } catch (error) {
+            console.error("Error parsing JSON:", error);
+            return;
+        }
+
+        console.log(data); // Inspect the response
+
+        if (data?.authUrl) {
             window.location.href = data.authUrl; // Redirect user to Google OAuth
         } else {
-            console.error("Failed to get auth URL:", data.message);
+            console.error("Failed to get auth URL:", data?.message || "Unknown error");
         }
-    } catch (error:unknown) {
-        console.error("Google Sign-in Error:", error);
-          }
-      }
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            console.error("Google Sign-in Error:", error.message);
+        } else {
+            console.error("Google Sign-in Error:", error);
+        }
+    }
+};
+
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated Background */}
