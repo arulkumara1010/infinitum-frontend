@@ -11,6 +11,7 @@ import Image from "next/image"
 export default function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+    
 
     useEffect(() => {
         const handleScroll = () => {
@@ -25,13 +26,13 @@ export default function Navbar() {
         setIsMobileMenuOpen(!isMobileMenuOpen)
     }
 
-    const navItems = [
-        { href: "#gallery", label: "Gallery" },
-        { href: "#portfolio", label: "Portfolio" },
-        { href: "#contact", label: "Contact" },
-        { href: "/register", label: "Register" },
-        { href: "/login", label: "Login" },
-    ]
+    // const navItems = [
+    //     // { href: "#gallery", label: "Gallery" },
+    //     // { href: "#portfolio", label: "Portfolio" },
+    //     // { href: "#contact", label: "Contact" },
+    //     // { href: "/register", label: "Register" },
+    //     // { href: "/login", label: "Login" },
+    // ]
 
     return (
         <motion.nav
@@ -48,13 +49,13 @@ export default function Navbar() {
                     <Link href="/" className="flex items-center">
                         <Image src="/infinitum2.svg" alt="Infinitum Logo" width={150} height={50} priority />
                     </Link>
-                    <div className="hidden md:flex space-x-8">
+                    {/* <div className="hidden md:flex space-x-8">
                         {navItems.slice(0, 3).map((item) => (
                             <NavLink key={item.href} href={item.href}>
                                 {item.label}
                             </NavLink>
                         ))}
-                    </div>
+                    </div> */}
                     <div className="hidden md:flex space-x-4">
                         <Button asChild variant="outline">
                             <Link href="/register">Register</Link>
@@ -77,7 +78,7 @@ export default function Navbar() {
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3 }}
                     >
-                        <div className="container mx-auto px-4 py-8">
+                        {/* <div className="container mx-auto px-4 py-8">
                             {navItems.map((item) => (
                                 <motion.div
                                     key={item.href}
@@ -91,7 +92,7 @@ export default function Navbar() {
                                     </NavLink>
                                 </motion.div>
                             ))}
-                        </div>
+                        </div> */}
                     </motion.div>
                 )}
             </AnimatePresence>
