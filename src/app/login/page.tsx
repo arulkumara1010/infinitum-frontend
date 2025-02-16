@@ -6,11 +6,11 @@ import { signIn } from "next-auth/react";
 import "@/app/login/animations.css";
 
 export default function LoginPage() {
+  /*
   const handleGoogleLogin = async () => {
     try {
-        const response = await fetch("${BACKEND_URL}/api/auth/google"); 
-
-        const data = await response.json();
+      const response = await fetch("BACKEND_URL/api/auth/google"); // Change 4000 to the correct port
+      const data = await response.json();
 
         if (data.authUrl) {
             window.location.href = data.authUrl; // Redirect user to Google OAuth
@@ -25,7 +25,21 @@ export default function LoginPage() {
       }
     }
   };
+*/
+const handleGoogleLogin = async () => {
+  try {
+      const response = await fetch("http://localhost:4000/api/auth/google");
+      const data = await response.json();
 
+      if (data.authUrl) {
+          window.location.href = data.authUrl; // Redirect user to Google OAuth
+      } else {
+          console.error("Failed to get auth URL:", data.message);
+      }
+  } catch (error:unknown) {
+      console.error("Google Sign-in Error:", error);
+        }
+    };
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated Background */}
@@ -37,7 +51,7 @@ export default function LoginPage() {
             style={{
               top: `${Math.random() * 100}vh`,
               left: `${Math.random() * 100}vw`,
-              animationDelay: `${Math.random() * 15}s`,
+              animationDelay: `${Math.random() * 5}s`,
             }}
           ></div>
         ))}
