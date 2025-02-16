@@ -1,6 +1,12 @@
+"use client"
+
 import { useEffect } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation"; // Use next/navigation instead of next/router
 import axios from "axios";
+
+interface UserProfile {
+    email: string;
+}
 
 const AuthCallback = () => {
     const router = useRouter();
@@ -19,7 +25,7 @@ const AuthCallback = () => {
 
     const fetchUserProfile = async (accessToken: string) => {
         try {
-            const response = await axios.get("https://www.googleapis.com/oauth2/v1/userinfo?alt=json", {
+            const response = await axios.get<UserProfile>("https://www.googleapis.com/oauth2/v1/userinfo?alt=json", {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },

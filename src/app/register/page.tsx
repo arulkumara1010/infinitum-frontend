@@ -20,12 +20,14 @@ export default function RegisterPage() {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    const email = localStorage.getItem("email");
-    if (email) {
-      setFormData((prev) => ({
-        ...prev,
-        email,
-      }));
+    if (typeof window !== 'undefined') {
+      const email = localStorage.getItem("email");
+      if (email) {
+        setFormData((prev) => ({
+          ...prev,
+          email,
+        }));
+      }
     }
   }, []);
 
@@ -45,7 +47,7 @@ export default function RegisterPage() {
     setMessage('');
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/auth/register`, {
+      const response = await fetch(`${process.env.BACKEND}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +58,8 @@ export default function RegisterPage() {
           department: formData.department,
           year: formData.year,
           phnNo: formData.phnNo,
-          source: formData.source
+          source: formData.source,
+          email: formData.email, // Include email in the request
         }),
       });
 
