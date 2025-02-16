@@ -58,7 +58,7 @@ export default function RegisterPage() {
         },
         body: JSON.stringify({
           name: formData.name,
-          rollNo: formData.rollNo,
+          rollNo: formData.rollNo.toUpperCase(), // Convert rollNo to uppercase
           department: formData.department,
           year: formData.year,
           phnNo: formData.phnNo,
