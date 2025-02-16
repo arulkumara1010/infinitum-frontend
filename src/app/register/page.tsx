@@ -18,6 +18,7 @@ export default function RegisterPage() {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -31,6 +32,7 @@ export default function RegisterPage() {
           year,
           rollNo,
         }));
+        setIsLoggedIn(true);
       }
     }
   }, []);
@@ -115,25 +117,28 @@ export default function RegisterPage() {
           </div>
         )}
 
-        <button
-          className="form-button w-full mt-4 px-6 py-3 rounded-md bg-gray-800 text-white text-lg font-semibold hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-700 transition duration-300 scale-100 hover:scale-105 flex items-center justify-center"
-          onClick={handleGoogleLogin}
-        >
-          Google Login
-        </button>
+        {!isLoggedIn && (
+          <button
+            className="form-button w-full mt-4 px-6 py-3 rounded-md bg-gray-800 text-white text-lg font-semibold hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-700 transition duration-300 scale-100 hover:scale-105 flex items-center justify-center"
+            onClick={handleGoogleLogin}
+          >
+            Google Login
+          </button>
+        )}
 
         <form className="space-y-4" onSubmit={handleSubmit}>
-          <FormField label="Full Name" name="name" value={formData.name} handleChange={handleChange} placeholder="Enter your full name" />
-          <FormField label="Roll Number" name="rollNo" value={formData.rollNo} handleChange={handleChange} placeholder="Enter your roll number" />
-          <FormField label="Department" name="department" value={formData.department} handleChange={handleChange} placeholder="Enter your department" />
+          <FormField label="Full Name *" name="name" value={formData.name} handleChange={handleChange} placeholder="Enter your full name" disabled={!isLoggedIn} />
+          <FormField label="Roll Number *" name="rollNo" value={formData.rollNo} handleChange={handleChange} placeholder="Enter your roll number" disabled={!isLoggedIn} />
+          <FormField label="Department *" name="department" value={formData.department} handleChange={handleChange} placeholder="Enter your department" disabled={!isLoggedIn} />
 
           <div className="flex flex-col">
-            <label className="text-white mb-2">Year</label>
+            <label className="text-white mb-2">Year *</label>
             <select
               name="year"
               value={formData.year}
               onChange={handleChange}
               className="form-input bg-zinc-800 text-white p-3 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-[#fc1464] transition duration-300"
+              disabled={!isLoggedIn}
             >
               <option value="1">1</option>
               <option value="2">2</option>
@@ -143,7 +148,7 @@ export default function RegisterPage() {
             </select>
           </div>
 
-          <FormField label="Phone Number" name="phnNo" value={formData.phnNo} handleChange={handleChange} placeholder="Enter your phone number" />
+          <FormField label="Phone Number *" name="phnNo" value={formData.phnNo} handleChange={handleChange} placeholder="Enter your phone number" disabled={!isLoggedIn} />
 
           <div className="flex flex-col mb-6">
             <label className="text-white mb-2">How did you hear about us?</label>
@@ -152,6 +157,7 @@ export default function RegisterPage() {
               value={formData.source}
               onChange={handleChange}
               className="form-input bg-zinc-800 text-white p-3 rounded-md border border-transparent focus:outline-none focus:ring-2 focus:ring-[#fc1464] transition duration-300"
+              disabled={!isLoggedIn}
             >
               <option value="">Select an option</option>
               <option value="Social Media">Social Media</option>
@@ -164,7 +170,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             className="form-button w-full mt-4 px-8 py-4 rounded-md bg-[#fc1464] text-white text-lg font-semibold hover:bg-[#f41d72] focus:outline-none focus:ring-4 focus:ring-[#fc1464] transition duration-300 scale-100 hover:scale-105"
-            disabled={loading}
+            disabled={loading || !isLoggedIn}
           >
             {loading ? 'Registering...' : 'Register'}
           </button>
