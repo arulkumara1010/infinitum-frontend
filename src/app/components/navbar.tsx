@@ -12,7 +12,7 @@ import styles from "./Navbar.module.css";
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isLoggedIn,setIsLoggedIn] = useState(true);
+  const [isLoggedIn,setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -86,7 +86,7 @@ export default function Navbar() {
                 </Link>
                 </Button>
                 <Button asChild variant="outline">
-                <Link href="/login" className="text-gray-300">
+                <Link href="/login" className="text-black-300">
                   Login
                 </Link>
                 </Button>
