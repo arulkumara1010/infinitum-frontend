@@ -12,6 +12,7 @@ import styles from "./Navbar.module.css";
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoggedIn,setIsLoggedIn] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -71,12 +72,27 @@ export default function Navbar() {
           </div>
 
           <div className="hidden md:flex space-x-4">
-            <Button asChild variant="outline">
-              <Link href="/register">Register</Link>
-            </Button>
-            <Button asChild>
-              <Link href="/login">Login</Link>
-            </Button>
+            {isLoggedIn ? (
+              <Button asChild>
+              <Link href="/dashboard" className="text-gray-300">
+                Profile
+              </Link>
+              </Button>
+            ) : (
+              <>
+                <Button asChild>
+                <Link href="/register" className="text-gray-300">
+                  Register
+                </Link>
+                </Button>
+                <Button asChild variant="outline">
+                <Link href="/login" className="text-gray-300">
+                  Login
+                </Link>
+                </Button>
+              </>
+            )}
+            
           </div>
           <Button
             variant="ghost"
