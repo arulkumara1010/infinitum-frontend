@@ -11,63 +11,88 @@ const events = [
     id: "1",
     title: "Hackathon: Code for Change",
     image: "/e1.jpg",
-    description: "Join us for a 24-hour coding marathon where innovation meets social impact. Build solutions that address real-world challenges in healthcare, education, or environmental sustainability.",
+    description:
+      "Join us for a 24-hour coding marathon where innovation meets social impact. Build solutions that address real-world challenges in healthcare, education, or environmental sustainability.",
     date: "March 6, 2025",
     time: "9:00 AM - March 7, 9:00 AM",
     location: "PSG Tech Main Auditorium",
     teamSize: "2-4 members",
-    prizes: ["₹50,000 First Prize", "₹30,000 Second Prize", "₹20,000 Third Prize"],
-    prerequisites: ["Laptop with required software", "Student ID", "Basic coding knowledge"],
+    prizes: [
+      "₹50,000 First Prize",
+      "₹30,000 Second Prize",
+      "₹20,000 Third Prize",
+    ],
+    prerequisites: [
+      "Laptop with required software",
+      "Student ID",
+      "Basic coding knowledge",
+    ],
     registrationDeadline: "March 1, 2025",
-    status: "Upcoming"
+    status: "Upcoming",
   },
   {
     id: "2",
     title: "AI Workshop: Future of ML",
     image: "/e2.jpg",
-    description: "Dive deep into the world of Artificial Intelligence with industry experts. Learn about the latest developments in machine learning, hands-on experience with neural networks, and real-world AI applications.",
+    description:
+      "Dive deep into the world of Artificial Intelligence with industry experts. Learn about the latest developments in machine learning, hands-on experience with neural networks, and real-world AI applications.",
     date: "March 7, 2025",
     time: "10:00 AM - 4:00 PM",
     location: "CS Department Seminar Hall",
     teamSize: "Individual",
     prizes: ["Certification", "AI Development Kit", "Internship Opportunities"],
-    prerequisites: ["Basic Python knowledge", "Laptop", "Mathematics background"],
+    prerequisites: [
+      "Basic Python knowledge",
+      "Laptop",
+      "Mathematics background",
+    ],
     registrationDeadline: "March 3, 2025",
-    status: "Upcoming"
+    status: "Upcoming",
   },
   {
     id: "3",
     title: "Cybersecurity Challenge",
     image: "/e3.jpg",
-    description: "Test your security skills in this intensive CTF competition. Face real-world security challenges, crack codes, find vulnerabilities, and learn about the latest in cybersecurity.",
+    description:
+      "Test your security skills in this intensive CTF competition. Face real-world security challenges, crack codes, find vulnerabilities, and learn about the latest in cybersecurity.",
     date: "March 6, 2025",
     time: "2:00 PM - 8:00 PM",
     location: "Networks Lab",
     teamSize: "1-2 members",
-    prizes: ["₹25,000 First Prize", "Security Certifications", "Mentorship Program"],
+    prizes: [
+      "₹25,000 First Prize",
+      "Security Certifications",
+      "Mentorship Program",
+    ],
     prerequisites: ["Basic networking knowledge", "Laptop", "Linux basics"],
     registrationDeadline: "March 2, 2025",
-    status: "Upcoming"
+    status: "Upcoming",
   },
   {
     id: "4",
     title: "Web3 Development Workshop",
     image: "/e4.jpg",
-    description: "Explore the decentralized web with our comprehensive Web3 workshop. Learn about blockchain, smart contracts, and build your first DApp with hands-on guidance.",
+    description:
+      "Explore the decentralized web with our comprehensive Web3 workshop. Learn about blockchain, smart contracts, and build your first DApp with hands-on guidance.",
     date: "March 7, 2025",
     time: "9:00 AM - 5:00 PM",
     location: "Innovation Center",
     teamSize: "Individual",
-    prizes: ["NFT Certificate", "Development Tools License", "Project Funding Opportunity"],
+    prizes: [
+      "NFT Certificate",
+      "Development Tools License",
+      "Project Funding Opportunity",
+    ],
     prerequisites: ["JavaScript knowledge", "Laptop", "MetaMask wallet"],
     registrationDeadline: "March 4, 2025",
-    status: "Upcoming"
+    status: "Upcoming",
   },
   {
     id: "5",
     title: "Game Development Challenge",
     image: "/e5.jpg",
-    description: "Create an innovative game in 12 hours! Use your creativity and coding skills to develop engaging games. Perfect for both beginners and experienced developers.",
+    description:
+      "Create an innovative game in 12 hours! Use your creativity and coding skills to develop engaging games. Perfect for both beginners and experienced developers.",
     date: "March 6, 2025",
     time: "10:00 AM - 10:00 PM",
     location: "Graphics Lab",
@@ -75,21 +100,26 @@ const events = [
     prizes: ["₹30,000 First Prize", "Gaming Hardware", "Publisher Meetings"],
     prerequisites: ["Unity/Unreal basics", "Laptop", "Creative mindset"],
     registrationDeadline: "March 1, 2025",
-    status: "Upcoming"
+    status: "Upcoming",
   },
   {
     id: "6",
     title: "IoT Innovation Contest",
     image: "/e6.jpg",
-    description: "Build the next big IoT solution! Work with the latest sensors and devices to create innovative solutions for smart homes, cities, or industries.",
+    description:
+      "Build the next big IoT solution! Work with the latest sensors and devices to create innovative solutions for smart homes, cities, or industries.",
     date: "March 7, 2025",
     time: "8:00 AM - 8:00 PM",
     location: "IoT Lab",
     teamSize: "2-4 members",
-    prizes: ["₹40,000 First Prize", "IoT Development Kits", "Industry Internships"],
+    prizes: [
+      "₹40,000 First Prize",
+      "IoT Development Kits",
+      "Industry Internships",
+    ],
     prerequisites: ["Basic electronics", "Arduino/RPi experience", "Laptop"],
     registrationDeadline: "March 3, 2025",
-    status: "Upcoming"
+    status: "Upcoming",
   },
 ];
 

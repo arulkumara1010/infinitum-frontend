@@ -27,10 +27,10 @@ export default function Gallery() {
         "24-hour Hackathons",
         "Technical Workshops",
         "Industry Expert Sessions",
-        "Coding Competitions"
+        "Coding Competitions",
       ],
       nextEvent: "March 6, 2025",
-      venue: "CS Department"
+      venue: "CS Department",
     },
     {
       src: "/eye.jpeg",
@@ -42,10 +42,10 @@ export default function Gallery() {
         "Tech Talks",
         "Project Showcase",
         "Innovation Challenges",
-        "Networking Sessions"
+        "Networking Sessions",
       ],
       nextEvent: "March 7, 2025",
-      venue: "Main Auditorium"
+      venue: "Main Auditorium",
     },
     {
       src: "/github.jpeg",
@@ -57,10 +57,10 @@ export default function Gallery() {
         "Open Source Workshops",
         "Collaboration Events",
         "Git Training",
-        "Project Management"
+        "Project Management",
       ],
       nextEvent: "March 8, 2025",
-      venue: "Innovation Hub"
+      venue: "Innovation Hub",
     },
   ];
 
@@ -83,7 +83,8 @@ export default function Gallery() {
             Featured Organizations
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto">
-            Discover the technical clubs and organizations driving innovation at PSG Tech
+            Discover the technical clubs and organizations driving innovation at
+            PSG Tech
           </p>
         </motion.div>
 
@@ -111,9 +112,15 @@ export default function Gallery() {
                   className="transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 z-20 p-6 flex flex-col justify-end">
-                  <h3 className="text-3xl font-bold text-white mb-3">{image.title}</h3>
-                  <p className="text-gray-300 mb-4">{image.description.substring(0, 100)}...</p>
-                  <span className="text-[#fc1464] text-sm">Click to learn more →</span>
+                  <h3 className="text-3xl font-bold text-white mb-3">
+                    {image.title}
+                  </h3>
+                  <p className="text-gray-300 mb-4">
+                    {image.description.substring(0, 100)}...
+                  </p>
+                  <span className="text-[#fc1464] text-sm">
+                    Click to learn more →
+                  </span>
                 </div>
               </motion.div>
 
@@ -121,20 +128,27 @@ export default function Gallery() {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="w-96 h-[500px] cursor-pointer rounded-xl bg-zinc-900 p-8 flex flex-col"
+                className="w-96 h-[500px] cursor-pointer rounded-xl bg-zinc-900 px-6 py-10 flex flex-col"
                 onClick={() => handleFlip(index)}
               >
-                <h3 className="text-2xl font-bold text-white mb-4">{image.title}</h3>
+                <h3 className="text-2xl font-bold text-white mb-4">
+                  {image.title}
+                </h3>
                 <p className="text-gray-300 mb-6">{image.description}</p>
-                
+
                 <div className="flex-grow">
                   <div className="flex items-center gap-2 mb-4">
                     <Trophy className="w-5 h-5 text-[#fc1464]" />
-                    <h4 className="text-lg font-semibold text-white">Highlights</h4>
+                    <h4 className="text-lg font-semibold text-white">
+                      Highlights
+                    </h4>
                   </div>
                   <ul className="space-y-2 mb-6">
                     {image.highlights.map((highlight, idx) => (
-                      <li key={idx} className="text-gray-300 flex items-center gap-2">
+                      <li
+                        key={idx}
+                        className="text-gray-300 flex items-center gap-2"
+                      >
                         <span className="text-[#fc1464]">•</span>
                         {highlight}
                       </li>

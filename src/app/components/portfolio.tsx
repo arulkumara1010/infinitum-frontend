@@ -9,6 +9,7 @@ import { Calendar, MapPin, Users } from "lucide-react";
 export default function Portfolio() {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState("All");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [hoveredId, setHoveredId] = useState<number | null>(null);
 
   const categories = ["All", "GHCC", "The Eye", "CSEA"];
@@ -166,7 +167,7 @@ export default function Portfolio() {
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-80" />
-                      
+
                       <div className="absolute inset-0 p-6 flex flex-col justify-end">
                         <div className="space-y-4">
                           <div className="flex items-center gap-2">
@@ -177,8 +178,10 @@ export default function Portfolio() {
                           <h3 className="text-2xl font-bold text-white">
                             {work.title}
                           </h3>
-                          <p className="text-gray-300">{work.shortDescription}</p>
-                          
+                          <p className="text-gray-300">
+                            {work.shortDescription}
+                          </p>
+
                           <div className="space-y-2 text-sm text-gray-300">
                             <div className="flex items-center gap-2">
                               <Calendar className="w-4 h-4 text-[#fc1464]" />
