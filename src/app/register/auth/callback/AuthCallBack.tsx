@@ -12,14 +12,11 @@ const AuthCallback = () => {
     message?: string;
   }
   useEffect(() => {
-    const exchangeTokenForSession = async (
-      access_token: string,
-      provider_token: string
-    ) => {
+    const exchangeTokenForSession = async (access_token: string) => {
       try {
         const response = await axios.post<AuthResponse>(
           "https://infinitum-website.onrender.com/api/auth/callback",
-          { access_token, provider_token },
+          { access_token },
           {
             withCredentials: true,
             headers: { "Content-Type": "application/json" },
@@ -53,10 +50,11 @@ const AuthCallback = () => {
     };
 
     const hashParams = new URLSearchParams(location.hash.substring(1));
+    console.log(hashParams);
     const accessToken = hashParams.get("access_token");
-    const providerToken = hashParams.get("provider_token");
-    if (accessToken && providerToken) {
-      exchangeTokenForSession(accessToken, providerToken);
+    console.log(accessToken);
+    if (accessToken) {
+      exchangeTokenForSession(accessToken);
     } else {
       console.error("Required tokens not found in URL");
       navigate("/login");

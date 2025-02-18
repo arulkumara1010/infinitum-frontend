@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 
 const AuthCallback = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   interface AuthResponse {
     token: string;
@@ -17,14 +16,21 @@ const AuthCallback = () => {
   }
 
   useEffect(() => {
-    const exchangeTokenForSession = async (
-      access_token: string,
-      provider_token: string
-    ) => {
+    const extractTokenFromHash = () => {
+      if (typeof window !== "undefined") {
+        const hashParams = new URLSearchParams(
+          window.location.hash.substring(1)
+        );
+        return hashParams.get("access_token");
+      }
+      return null;
+    };
+
+    const exchangeTokenForSession = async (access_token: string) => {
       try {
         const response = await axios.post<AuthResponse>(
           "https://infinitum-website.onrender.com/api/auth/callback",
-          { access_token, provider_token },
+          { access_token },
           {
             withCredentials: true,
             headers: { "Content-Type": "application/json" },
@@ -59,16 +65,14 @@ const AuthCallback = () => {
       }
     };
 
-    const accessToken = searchParams.get("access_token");
-    const providerToken = searchParams.get("provider_token");
-
-    if (accessToken && providerToken) {
-      exchangeTokenForSession(accessToken, providerToken);
+    const accessToken = extractTokenFromHash();
+    if (accessToken) {
+      exchangeTokenForSession(accessToken);
     } else {
       console.error("Required tokens not found in URL");
       router.push("/login");
     }
-  }, [router, searchParams]);
+  }, [router]);
 
   return <h2>Processing login...</h2>;
 };

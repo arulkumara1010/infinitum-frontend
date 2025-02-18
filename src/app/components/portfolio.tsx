@@ -4,10 +4,13 @@ import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Calendar, MapPin, Users } from "lucide-react";
 
 export default function Portfolio() {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState("All");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [hoveredId, setHoveredId] = useState<number | null>(null);
 
   const categories = ["All", "GHCC", "The Eye", "CSEA"];
 
@@ -15,45 +18,63 @@ export default function Portfolio() {
     () => [
       {
         id: 1,
-        title: "Event 1",
+        title: "Hackathon: Code for Change",
         category: "GHCC",
         image: "/e1.jpg",
-        year: "2025",
+        date: "March 6, 2025",
+        location: "Main Auditorium",
+        teamSize: "2-4 members",
+        shortDescription: "24-hour coding marathon for social impact",
       },
       {
         id: 2,
-        title: "Event 2",
+        title: "AI Workshop: Future of ML",
         category: "GHCC",
         image: "/e2.jpg",
-        year: "2025",
+        date: "March 7, 2025",
+        location: "CS Seminar Hall",
+        teamSize: "Individual",
+        shortDescription: "Deep dive into AI with industry experts",
       },
       {
         id: 3,
-        title: "Event 3",
+        title: "Cybersecurity Challenge",
         category: "The Eye",
         image: "/e3.jpg",
-        year: "2025",
+        date: "March 6, 2025",
+        location: "Networks Lab",
+        teamSize: "1-2 members",
+        shortDescription: "Test your security skills in CTF",
       },
       {
         id: 4,
-        title: "Event 4",
+        title: "Web3 Development",
         category: "The Eye",
         image: "/e4.jpg",
-        year: "2025",
+        date: "March 7, 2025",
+        location: "Innovation Center",
+        teamSize: "Individual",
+        shortDescription: "Build your first DApp",
       },
       {
         id: 5,
-        title: "Event 5",
+        title: "Game Development",
         category: "CSEA",
         image: "/e5.jpg",
-        year: "2025",
+        date: "March 6, 2025",
+        location: "Graphics Lab",
+        teamSize: "2-3 members",
+        shortDescription: "Create games in 12 hours",
       },
       {
         id: 6,
-        title: "Event 6",
+        title: "IoT Innovation",
         category: "CSEA",
         image: "/e6.jpg",
-        year: "2025",
+        date: "March 7, 2025",
+        location: "IoT Lab",
+        teamSize: "2-4 members",
+        shortDescription: "Build smart solutions",
       },
     ],
     []
@@ -77,22 +98,40 @@ export default function Portfolio() {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="container mx-auto"
       >
+        <div className="text-center mb-12">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400"
+          >
+            Upcoming Events
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-gray-400 max-w-2xl mx-auto"
+          >
+            Discover our exciting lineup of tech events and competitions
+          </motion.p>
+        </div>
+
         <div className="mb-8 flex flex-wrap justify-center gap-4">
-          {categories.map((category) => (
+          {categories.map((category, index) => (
             <motion.div
               key={category}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
             >
               <Button
                 onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2 rounded-lg transition-all duration-300 shadow-lg
-                  ${
-                    selectedCategory === category
-                      ? "bg-[#ff0074] text-white"
-                      : "bg-gray-300 text-black hover:bg-gray-500 hover:text-white"
-                  }
-                `}
+                className={`px-6 py-2 rounded-full transition-all duration-300 ${
+                  selectedCategory === category
+                    ? "bg-[#fc1464] text-white shadow-lg shadow-[#fc1464]/20"
+                    : "bg-zinc-800 text-gray-300 hover:bg-zinc-700"
+                }`}
               >
                 {category}
               </Button>
@@ -102,10 +141,7 @@ export default function Portfolio() {
 
         <motion.div
           layout
-          className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
+          className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
         >
           <AnimatePresence>
             {filteredWorks.map((work) => (
@@ -115,39 +151,53 @@ export default function Portfolio() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-                whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.5 }}
+                onHoverStart={() => setHoveredId(work.id)}
+                onHoverEnd={() => setHoveredId(null)}
               >
                 <Card
-                  className="overflow-hidden bg-gray-900 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-transform duration-300 cursor-pointer w-full h-80 relative"
+                  className="group relative overflow-hidden bg-zinc-900 border-zinc-800 h-[400px] cursor-pointer"
                   onClick={() => router.push(`/event/${work.id}`)}
                 >
-                  <CardContent className="p-0 flex flex-col items-center justify-center w-full h-full relative">
-                    <motion.img
-                      src={work.image}
-                      alt={work.title}
-                      className="w-full h-full object-cover brightness-90 hover:brightness-100 transition duration-300"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.8 }}
-                    />
-                    <div className="absolute bottom-0 w-full bg-gradient-to-t from-black/80 via-black/60 to-transparent p-4 text-center">
-                      <motion.h3
-                        className="text-lg font-semibold text-white"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 }}
-                      >
-                        {work.title}
-                      </motion.h3>
-                      <motion.p
-                        className="mt-1 text-sm text-gray-300"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.4 }}
-                      >
-                        {work.year}
-                      </motion.p>
+                  <CardContent className="p-0 h-full">
+                    <div className="relative h-full">
+                      <motion.img
+                        src={work.image}
+                        alt={work.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-80" />
+
+                      <div className="absolute inset-0 p-6 flex flex-col justify-end">
+                        <div className="space-y-4">
+                          <div className="flex items-center gap-2">
+                            <span className="px-3 py-1 rounded-full bg-[#fc1464] text-white text-sm">
+                              {work.category}
+                            </span>
+                          </div>
+                          <h3 className="text-2xl font-bold text-white">
+                            {work.title}
+                          </h3>
+                          <p className="text-gray-300">
+                            {work.shortDescription}
+                          </p>
+
+                          <div className="space-y-2 text-sm text-gray-300">
+                            <div className="flex items-center gap-2">
+                              <Calendar className="w-4 h-4 text-[#fc1464]" />
+                              <span>{work.date}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <MapPin className="w-4 h-4 text-[#fc1464]" />
+                              <span>{work.location}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <Users className="w-4 h-4 text-[#fc1464]" />
+                              <span>{work.teamSize}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>

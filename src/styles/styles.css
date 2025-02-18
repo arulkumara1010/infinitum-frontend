@@ -1,0 +1,192 @@
+/* ================================
+   1) PAGE & BACKGROUND
+   ================================ */
+   html, body {
+    margin: 0; 
+    padding: 0;
+    background: #000 !important; /* Full Black */
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .background-container {
+    /* You can keep your existing styling or leave it empty if you want the dots */
+  }
+  .dot {
+    /* Floating dot styling if desired */
+  }
+  
+  /* ================================
+     2) TABLES WRAPPER
+     ================================ */
+     #tables_wrapper {
+        display: flex;
+        justify-content: center;
+        gap: 10px; /* Reduce the gap between tables */
+        margin-top: 5px; /* Reduce the top margin */
+        align-items: flex-start;
+    }
+    
+  /* =========== REGISTERED TABLE =========== */
+  #registered_table {
+    display: table;
+    margin: 20px auto;
+    padding: 0;
+    background: #1f1e1e;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(255, 0, 128, 0.4);
+    position: relative;
+    z-index: 1;
+  }
+  #registered_table table {
+    border-collapse: collapse;
+  }
+  #registered_table th, #registered_table td {
+    border: 1px solid #ff007b;
+    padding: 10px;
+    text-align: left;
+    color: #fff;
+  }
+  #registered_table th {
+    background: #1f1e1e;
+    color: #ff007b;
+  }
+  /* Pink highlight on row click */
+  #registered_table tr.highlight {
+    background-color: #ff007b !important;
+    color: #000 !important; 
+    font-weight: bold;
+  }
+  
+  /* =========== UNREGISTERED TABLE =========== */
+  #unregistered_table {
+    display: table;
+    margin: 20px auto;
+    padding: 0;
+    background: #1f1e1e;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    position: relative;
+    z-index: 1;
+  }
+  #unregistered_table table {
+    border-collapse: collapse;
+  }
+  #unregistered_table th, #unregistered_table td {
+    border: 1px solid #00FFFF;
+    padding: 10px;
+    text-align: left;
+    color: #fff;
+  }
+  #unregistered_table th {
+    background: #1f1e1e;
+    color: #00FFFF;
+  }
+  /* Cyan highlight on row click */
+  #unregistered_table tr.highlight {
+    background-color: #00FFFF !important;
+    color: #000 !important;
+    font-weight: bold;
+  }
+  
+  /* ================================
+     3) GANTT CHART
+     ================================ */
+  #gantt_here {
+    width: 80%;
+    height: 250px;
+    margin: 20px auto;
+    background: #1f1e1e !important;
+    box-shadow: 0 0 10px rgba(255, 0, 128, 0.4);
+    overflow-y: hidden;
+  }
+  
+  /* Gantt Headers */
+  .gantt_grid, .gantt_grid_head, .gantt_grid_scale, .gantt_task_scale {
+    background: #000 !important;
+    color: #ff007b !important; /* neon pink text */
+    font-weight: bold;
+  }
+  .gantt_grid_data .gantt_cell {
+    background: #1f1e1e !important;
+    color: #fff !important;
+  }
+  
+  /* Rows & Bars black by default */
+  .gantt_task_bg,
+  .gantt_task_content,
+  .gantt_task_row {
+    background: #000 !important; 
+    color: #fff !important;
+  }
+  /* The "registered_event" or "unregistered_event" class is mostly for 
+     applying color when overlapping or selected. By default => black. */
+  .registered_event { /* no color => black */}
+  .unregistered_event { /* no color => black */}
+  
+/* Registered => pink if selected or overlapping */
+.gantt_task_row.gantt_selected.registered_event,
+.gantt_task_bg.gantt_selected.registered_event,
+.gantt_task_content.gantt_selected.registered_event,
+.gantt_task_row.registered_event.overlapping_event,
+.gantt_task_bg.registered_event.overlapping_event,
+.gantt_task_content.registered_event.overlapping_event {
+    background: #ff007b !important;
+    color: #000 !important;
+}
+
+/* Unregistered => cyan if selected or overlapping */
+.gantt_task_row.gantt_selected.unregistered_event,
+.gantt_task_bg.gantt_selected.unregistered_event,
+.gantt_task_content.gantt_selected.unregistered_event,
+.gantt_task_row.unregistered_event.overlapping_event,
+.gantt_task_bg.unregistered_event.overlapping_event,
+.gantt_task_content.unregistered_event.overlapping_event {
+    background: #00FFFF !important;
+    color: #000 !important;
+}
+  /* Scrollbars & other minor details */
+  .gantt_ver_scroll, .gantt_hor_scroll {
+    background: #000 !important;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #ff007b;
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #1f1e1e;
+  }
+
+#registered_table, #unregistered_table {
+    margin: 20px; /* Reduce spacing further if needed */
+}
+/* Remove extra white space at the bottom */
+html, body {
+    margin: 0;
+    padding: 20;
+    padding-top: 40;
+    height: 100%;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1; /* Ensures the main content takes up the remaining space */
+}
+
+footer {
+    margin-top: auto; /* Pushes the footer to the bottom */
+    padding: 10px 0;
+    background: #1f1e1e; /* Adjust as needed */
+    text-align: center;
+    color: #fff; /* Adjust as needed */
+}
