@@ -75,6 +75,28 @@ input:focus, textarea:focus {
   box-shadow: 0 0 0 4px rgba(252, 20, 100, 0.5);
 }
 
+/* Ensure the form container is scrollable */
+.form-container {
+  max-height: 100vh; /* Ensure the container does not exceed the viewport height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 1rem; /* Add some padding for better appearance */
+}
+
+/* Custom scrollbar styles */
+.form-container::-webkit-scrollbar {
+  width: 8px; /* Adjust the width of the scrollbar */
+}
+
+.form-container::-webkit-scrollbar-track {
+  background: #1a1a1a; /* Background color of the scrollbar track */
+}
+
+.form-container::-webkit-scrollbar-thumb {
+  background-color: #333; /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounded corners for the scrollbar thumb */
+  border: 2px solid #1a1a1a; /* Border around the scrollbar thumb */
+}
+
 /* Adjusting the dropdown margin-bottom */
 .flex.flex-col.mb-6 {
   margin-bottom: 1.5rem; /* Adjust this value as needed */
@@ -82,5 +104,6 @@ input:focus, textarea:focus {
 
 /* Alternatively, if you want to directly adjust the submit button margin-top */
 .form-button[type="submit"] {
-  margin-top: 5rem;
+  margin-top: 2rem; /* Adjust this value as needed */
 }
+

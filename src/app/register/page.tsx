@@ -106,7 +106,7 @@ export default function RegisterPage() {
         <div className="absolute inset-0 bg-opacity-20 backdrop-blur-xl animate-blur"></div>
       </div>
 
-      <div className="relative z-10 bg-zinc-900 p-8 rounded-lg shadow-xl max-w-md w-full space-y-6 animate__animated animate__fadeIn mt-16 md:mt-24 md:max-w-sm custom-scrollbar">
+      <div className="relative z-10 bg-zinc-900 p-8 rounded-lg shadow-xl max-w-md w-full space-y-6 animate__animated animate__fadeIn mt-16 md:mt-24 md:max-w-sm custom-scrollbar form-container">
         <h1 className="form-title text-4xl font-extrabold text-white text-center">
           Register for the Event
         </h1>
