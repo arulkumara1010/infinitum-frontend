@@ -1,102 +1,109 @@
 /* Gradient animation for background */
 @keyframes gradientAnimation {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-  /* Animation for background noise effect */
-  @keyframes noiseAnimation {
-    0% {
-      background-position: 0 0;
-    }
-    100% {
-      background-position: 100% 100%;
-    }
-  }
+/* Animation for background noise effect */
+@keyframes noiseAnimation {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.4; }
+}
 
-  /* Blur animation */
-  @keyframes blurAnimation {
-    0% {
-      backdrop-filter: blur(0px);
-    }
-    50% {
-      backdrop-filter: blur(10px);
-    }
-    100% {
-      backdrop-filter: blur(0px);
-    }
-  }
+/* Blur animation */
+@keyframes blurAnimation {
+  0%, 100% { filter: blur(0px); }
+  50% { filter: blur(2px); }
+}
 
-  /* Noise overlay */
-  .bg-noise {
-    background: url('https://www.transparenttextures.com/patterns/noise.png') repeat;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
+/* Noise overlay */
+.bg-noise {
+  background-image: url('/path/to/noise.png');
+  background-size: cover;
+}
 
-  /* Complex Gradient animation with #fc1464 */
-  .animate-gradient {
-    background-size: 400% 400%;
-    animation: gradientAnimation 10s ease infinite;
-  }
+/* Complex Gradient animation with #fc1464 */
+.animate-gradient {
+  animation: gradientAnimation 15s ease infinite;
+  background: linear-gradient(270deg, #fc1464, #3e3e3e, #000000);
+  background-size: 600% 600%;
+}
 
-  /* Pulse and background effects */
-  .animate-background-pulse {
-    background-size: 400% 400%;
-    animation: gradientAnimation 6s ease-in-out infinite;
-  }
+/* Pulse and background effects */
+.animate-background-pulse {
+  animation: pulse 2s infinite;
+}
 
-  /* Background blur animation */
-  .animate-blur {
-    animation: blurAnimation 8s ease-in-out infinite;
-  }
+/* Background blur animation */
+.animate-blur {
+  animation: blurAnimation 10s infinite;
+}
 
-  /* Noise Animation */
-  .animate-noise {
-    animation: noiseAnimation 10s linear infinite;
-  }
+/* Noise Animation */
+.animate-noise {
+  animation: noiseAnimation 1s infinite;
+}
 
-  /* Custom dark noise texture to overlay on top of the background */
-  .bg-dark-overlay {
-    background-color: rgba(0, 0, 0, 0.7);
-  }
+/* Custom dark noise texture to overlay on top of the background */
+.bg-dark-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
 
-  /* Apply a dark gradient with a hint of purple tones for a creative effect */
-  .bg-gradient-dark {
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(10, 10, 10, 0.8));
-  }
+/* Apply a dark gradient with a hint of purple tones for a creative effect */
+.bg-gradient-dark {
+  background: linear-gradient(135deg, #1a1a1a, #3e3e3e, #fc1464);
+}
 
-  /* Focus animation for form fields */
-  input:focus, textarea:focus {
-    outline: none;
-    border-color: #fc1464;
-    box-shadow: 0 0 5px rgba(252, 20, 100, 0.7);
-    transition: all 0.3s ease-in-out;
-  }
+/* Focus animation for form fields */
+input:focus, textarea:focus {
+  border-color: #fc1464;
+  box-shadow: 0 0 0 3px rgba(252, 20, 100, 0.5);
+}
 
-  /* Hover and focus effect for the register button */
-  .form-button {
-    transition: all 0.3s ease;
-    box-shadow: 0 0 15px rgba(252, 20, 100, 0.6);
-  }
+/* Hover and focus effect for the register button */
+.form-button {
+  transition: background-color 0.3s, transform 0.3s;
+}
 
-  .form-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(252, 20, 100, 0.8);
-    background-color: #f41d72;
-  }
+.form-button:hover {
+  background-color: #f41d72;
+  transform: scale(1.05);
+}
 
-  .form-button:focus {
-    box-shadow: 0 0 25px rgba(252, 20, 100, 1);
-    background-color: #f41d72;
-  }
+.form-button:focus {
+  box-shadow: 0 0 0 4px rgba(252, 20, 100, 0.5);
+}
+
+/* Ensure the form container does not exceed the viewport height */
+.form-container {
+  max-height: 100vh; /* Ensure the container does not exceed the viewport height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 1rem; /* Add some padding for better appearance */
+}
+
+/* Custom scrollbar styles */
+body::-webkit-scrollbar {
+  width: 8px; /* Adjust the width of the scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  background: #1a1a1a; /* Background color of the scrollbar track */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #333; /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounded corners for the scrollbar thumb */
+  border: 2px solid #1a1a1a; /* Border around the scrollbar thumb */
+}
+
+/* Adjusting the dropdown margin-bottom */
+.flex.flex-col.mb-6 {
+  margin-bottom: 1.5rem; /* Adjust this value as needed */
+}
+
+/* Alternatively, if you want to directly adjust the submit button margin-top */
+.form-button[type="submit"] {
+  margin-top: 2rem; /* Adjust this value as needed */
+}
+
