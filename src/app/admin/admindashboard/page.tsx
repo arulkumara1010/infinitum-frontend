@@ -8,6 +8,7 @@ import axios from "axios";
 
 interface Student {
   roll_no: string;
+  attended:number;
   student: {
     name: string;
     email: string;
@@ -17,30 +18,32 @@ interface Student {
 }
 
 const eventMap: Record<string, string> = {
-  "AI Story Quest": "1234",
+  "AI Story Quest": "1",
   "Pandemic": "2",
   "Family Feud": "3",
 };
 
-interface AttendanceResponse {
-  [key: string]: boolean;
-}
+// interface AttendanceResponse {
+//   [key: string]: boolean;
+// }
 
 const AdminDashboard = () => {
   const router=useRouter();
-  useEffect(()=>{
-    
+  const [students, setStudents] = useState<Student[]>([]);
+  const [selectedEvent, setSelectedEvent] = useState<string>("0");
+  const [token, setToken] = useState<string>("");
+
+  useEffect(()=>{    
     const isAuthenticated=localStorage.getItem("isAdminLoggedIn");
     // console.log(isAuthenticated);
     if (!isAuthenticated) {
       router.replace("/admin");}
   },[router]);
 
-  const [students, setStudents] = useState<Student[]>([]);
-  const [selectedEvent, setSelectedEvent] = useState<string>("");
-  const [attendance, setAttendance] = useState<AttendanceResponse>({});
-  const [token, setToken] = useState<string>("");
-  // const [error, setError] = useState<string>("");
+
+  // const [attendance, setAttendance] = useState<AttendanceResponse>({});  
+  // const [allStudents, setAllStudents] = useState<Student[]>([]);
+ 
 
   useEffect(() => {
     const storedToken = localStorage.getItem("auth_token");
@@ -48,19 +51,29 @@ const AdminDashboard = () => {
       setToken(storedToken);
       console.log(storedToken);
     } else {
-      console.error("Token not found in localStorage!");
+      console.error("Token not found in localStorage");
       router.replace("/admin"); 
     }
   }, [router]);
+
+
   useEffect(() => {
-    if (students.length > 0) {
-      const initialAttendance: AttendanceResponse = {};
-      students.forEach((student) => {
-        initialAttendance[student.roll_no] = false; 
-      });
-      setAttendance(initialAttendance);
+    if (token) {
+      fetchAllStudents();
     }
-  }, [students]);
+  }, [token]);
+
+
+  // useEffect(() => {
+  //   if (students.length > 0) {
+  //     const initialAttendance: AttendanceResponse = {};
+  //     students.forEach((student) => {
+  //       initialAttendance[student.roll_no] = false; 
+  //     });
+  //     setAttendance(initialAttendance);
+  //   }
+  // }, [students]);
+
   // useEffect(() => {
     
   //   const fetchAllAttendance = async () => {
@@ -76,39 +89,94 @@ const AdminDashboard = () => {
   //     fetchAllAttendance();
   //   }
   // }, [students]);
-
-  
-  const fetchStudents = async (eventId: string) => {
-    
-    if (!token) {
-      console.error("Token is missing. Cannot fetch students.");
-      return;
-    }
+  const fetchStudentsById = async (eventId: string) => {
+    if (!token) return [];
     try {
-      console.log("Current token:", token);
-       const response = await axios.get<Student[]>(
-        `${url}/api/event/fetch/${eventId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      if (response.data) {
-        const formattedStudents = response.data.map((s: any) => ({
-          roll_no: s.roll_no,
-          student: {
-            name: s.student?.name || "N/A",
-            email: s.student?.email || "N/A",
-            phn_no: s.student?.phn_no || "N/A",
-          },
-          event: eventId,
-        }));
-        console.log("Formatted Students:", formattedStudents);
-      setStudents(formattedStudents);
-      }
+      const response = await axios.get<Student[]>(`${url}/api/event/fetch/${eventId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return response.data || [];
     } catch (error) {
-      console.error("Error fetching students:", error);
+      console.error(`Error fetching students for event ${eventId}:`, error);
+      return [];
     }
   };
+
+  const fetchAllStudents = async () => {
+    try {
+      const eventIds = Object.values(eventMap);
+      let allStudents: Student[] = [];
+      for (const id of eventIds) {
+        const studentsForEvent = await fetchStudentsById(id);
+        allStudents = [...allStudents, ...studentsForEvent.map(s => ({ ...s, event: id }))];
+      }
+      setStudents(allStudents);
+    } catch (error) {
+      console.error("Error fetching all students:", error);
+    }
+  };
+
+  
+  // const fetchStudents = async (eventId: string) => {
+    
+  //   if (!token) {
+  //     console.error("Token is missing. Cannot fetch students.");
+  //     return;
+  //   }
+  //   try {
+  //     let allStudents: Student[] = [];
+  //     console.log("Current token:", token);
+  //     if(eventId!=='0')
+  //     {
+  //       const response = await axios.get<Student[]>(
+  //         `${url}/api/event/fetch/${eventId}`,
+  //         {
+  //           headers: { Authorization: `Bearer ${token}` },
+  //         }
+  //       );
+  //       if (response.data) {
+  //         const formattedStudents = response.data.map((s: any) => ({
+  //           roll_no: s.roll_no,
+  //           student: {
+  //             name: s.student?.name || "N/A",
+  //             email: s.student?.email || "N/A",
+  //             phn_no: s.student?.phn_no || "N/A",
+  //           },
+  //           event: eventId,
+  //         }));
+  //         console.log("Formatted Students:", formattedStudents);
+  //       setStudents(formattedStudents);
+  //       }
+  //     }else{
+  //       const eventIds = Object.values(eventMap); // Get all event IDs
+  //     const requests = eventIds.map((id) =>
+  //       axios.get<Student[]>(`${url}/api/event/fetch/${id}`, {
+  //         headers: { Authorization: `Bearer ${token}` },
+  //       })
+  //     );
+
+  //     const results = await Promise.all(requests);
+
+  //     results.forEach((response, index) => {
+  //       if (response.data) {
+  //         const formattedStudents = response.data.map((s: any) => ({
+  //           roll_no: s.roll_no,
+  //           student: {
+  //             name: s.student?.name || "N/A",
+  //             email: s.student?.email || "N/A",
+  //             phn_no: s.student?.phn_no || "N/A",
+  //           },
+  //           event: eventIds[index], // Assign correct event ID
+  //         }));
+  //         allStudents = [...allStudents, ...formattedStudents];
+  //       }
+  //     });
+  //     }
+  //      setStudents(allStudents);
+  //   } catch (error) {
+  //     console.error("Error fetching students:", error);
+  //   }
+  // };
 
   // const fetchStudentEvents = async (query: string) => {
   //   if (!token) return;
@@ -160,8 +228,8 @@ const AdminDashboard = () => {
   //     return false;
   //   }
   // };
-  const handleAttendanceChange = async (rollNo: string, eventId: string) => {
-    console.log("Sending data:", { roll_no: rollNo, event_id: eventId });
+  const handleAttendanceChange = async (rollNo: string, eventId: string,currentStatus: number) => {
+    //console.log("Sending data:", { roll_no: rollNo, event_id: eventId });
     if (!token) return;   
     if (!rollNo || !eventId) {
       console.error("Missing required fields:", { rollNo, eventId });
@@ -169,42 +237,34 @@ const AdminDashboard = () => {
     }
 
     try {
-      const updatedStatus = !attendance[rollNo];
-
-      setAttendance((prev) => ({
-        ...prev,
-        [rollNo]: updatedStatus,
-      }));
+      const updatedStatus = currentStatus===1?0:1;
       console.log("Sending data:", { roll_no: rollNo, event_id: eventId });
       const response = await axios.post(
         `${url}/api/attendance/putattendance`,
-        { roll_no: rollNo, event_id: eventId },
+        { roll_no: rollNo, event_id: eventId ,attended:updatedStatus},
         { headers: { Authorization: `Bearer ${token}` } }
       );
+
+      setStudents((prev)=>prev.map((student)=>
+      student.roll_no===rollNo && student.event===eventId ? {...student,attended:updatedStatus}:student));
       console.log("API Response:", response.data);
     } catch (error) {
       console.error("Error updating attendance:", error);
     }
      };
 
-  const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+   const handleFilterChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selected = event.target.value;
     setSelectedEvent(selected);
-    if (selected) {
-      fetchStudents(selected);
+
+    if (selected === "0") {
+      fetchAllStudents();
     } else {
-      setStudents([]);
+      const studentsForEvent = await fetchStudentsById(selected);
+      setStudents(studentsForEvent.map(s => ({ ...s, event: selected })));
     }
   };
-  // const formattedStudents = students.map((s) => ({
-  //   roll_no: s.roll_no,
-  //   name: s.student?.name || "N/A",
-  //   email: s.student?.email || "N/A",
-  //   phn_no: s.student?.phn_no || "N/A",
-  //   event: eventMap[s.event]||s.event,
-  // }));
 
-  // console.log("Formatted Students:", formattedStudents);
   return (
     <div className="min-h-screen p-6 bg-[#1A1A2E] text-white">
       <h1 className="text-2xl font-bold mt-14">Admin Dashboard</h1>
@@ -217,10 +277,10 @@ const AdminDashboard = () => {
             onChange={handleFilterChange}
             value={selectedEvent}
             >
-            <option key="default" value="">Select an event</option>
-            <option key="1234"value="1234">AI Story Quest</option>
-            <option key="2"value="2">Pandemic</option>
-            <option key="3"value="3">Family Feud</option>
+            <option key="default" value="0">Select an event</option>
+            {Object.entries(eventMap).map(([name, id]) => (
+              <option key={id} value={id}>{name}</option>
+            ))}
           </select>
         </div>
 
@@ -230,7 +290,6 @@ const AdminDashboard = () => {
             type="text"
             placeholder="Enter Roll No or Name"
             className="border p-2 text-gray-800 bg-[#CCD6E0FC] rounded placeholder-gray-500"
-            // onChange={(e) => fetchStudentEvents(e.target.value)}
           />
         </div>
       </div>
@@ -259,9 +318,9 @@ const AdminDashboard = () => {
                   <input
                     type="checkbox"
                     className="w-5 h-5 border-2 border-white bg-white checked:bg-black checked:border-black rounded transition-all"
-                    checked={attendance[student.roll_no] || false}
+                    checked={student.attended===1}
                     onChange={() =>
-                      handleAttendanceChange(student.roll_no,student.event)
+                      handleAttendanceChange(student.roll_no,student.event,student.attended)
                     }
                   />
                 </td>
