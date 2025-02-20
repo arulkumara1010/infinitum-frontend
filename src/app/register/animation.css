@@ -75,7 +75,7 @@ input:focus, textarea:focus {
   box-shadow: 0 0 0 4px rgba(252, 20, 100, 0.5);
 }
 
-/* Ensure the form container is scrollable */
+/* Ensure the form container does not exceed the viewport height */
 .form-container {
   max-height: 100vh; /* Ensure the container does not exceed the viewport height */
   overflow-y: auto; /* Enable vertical scrolling */
@@ -83,15 +83,15 @@ input:focus, textarea:focus {
 }
 
 /* Custom scrollbar styles */
-.form-container::-webkit-scrollbar {
+body::-webkit-scrollbar {
   width: 8px; /* Adjust the width of the scrollbar */
 }
 
-.form-container::-webkit-scrollbar-track {
+body::-webkit-scrollbar-track {
   background: #1a1a1a; /* Background color of the scrollbar track */
 }
 
-.form-container::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb {
   background-color: #333; /* Color of the scrollbar thumb */
   border-radius: 10px; /* Rounded corners for the scrollbar thumb */
   border: 2px solid #1a1a1a; /* Border around the scrollbar thumb */
