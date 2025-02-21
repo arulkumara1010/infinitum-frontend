@@ -23,10 +23,6 @@ const eventMap: Record<string, string> = {
   "Family Feud": "3",
 };
 
-// interface AttendanceResponse {
-//   [key: string]: boolean;
-// }
-
 const AdminDashboard = () => {
   const router=useRouter();
   const [students, setStudents] = useState<Student[]>([]);
@@ -40,10 +36,6 @@ const AdminDashboard = () => {
       router.replace("/admin");}
   },[router]);
 
-
-  // const [attendance, setAttendance] = useState<AttendanceResponse>({});  
-  // const [allStudents, setAllStudents] = useState<Student[]>([]);
- 
 
   useEffect(() => {
     const storedToken = localStorage.getItem("auth_token");
@@ -95,6 +87,7 @@ const AdminDashboard = () => {
       const response = await axios.get<Student[]>(`${url}/api/event/fetch/${eventId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      console.log(response.data);
       return response.data || [];
     } catch (error) {
       console.error(`Error fetching students for event ${eventId}:`, error);
@@ -116,142 +109,42 @@ const AdminDashboard = () => {
     }
   };
 
-  
-  // const fetchStudents = async (eventId: string) => {
-    
-  //   if (!token) {
-  //     console.error("Token is missing. Cannot fetch students.");
-  //     return;
-  //   }
-  //   try {
-  //     let allStudents: Student[] = [];
-  //     console.log("Current token:", token);
-  //     if(eventId!=='0')
-  //     {
-  //       const response = await axios.get<Student[]>(
-  //         `${url}/api/event/fetch/${eventId}`,
-  //         {
-  //           headers: { Authorization: `Bearer ${token}` },
-  //         }
-  //       );
-  //       if (response.data) {
-  //         const formattedStudents = response.data.map((s: any) => ({
-  //           roll_no: s.roll_no,
-  //           student: {
-  //             name: s.student?.name || "N/A",
-  //             email: s.student?.email || "N/A",
-  //             phn_no: s.student?.phn_no || "N/A",
-  //           },
-  //           event: eventId,
-  //         }));
-  //         console.log("Formatted Students:", formattedStudents);
-  //       setStudents(formattedStudents);
-  //       }
-  //     }else{
-  //       const eventIds = Object.values(eventMap); // Get all event IDs
-  //     const requests = eventIds.map((id) =>
-  //       axios.get<Student[]>(`${url}/api/event/fetch/${id}`, {
-  //         headers: { Authorization: `Bearer ${token}` },
-  //       })
-  //     );
-
-  //     const results = await Promise.all(requests);
-
-  //     results.forEach((response, index) => {
-  //       if (response.data) {
-  //         const formattedStudents = response.data.map((s: any) => ({
-  //           roll_no: s.roll_no,
-  //           student: {
-  //             name: s.student?.name || "N/A",
-  //             email: s.student?.email || "N/A",
-  //             phn_no: s.student?.phn_no || "N/A",
-  //           },
-  //           event: eventIds[index], // Assign correct event ID
-  //         }));
-  //         allStudents = [...allStudents, ...formattedStudents];
-  //       }
-  //     });
-  //     }
-  //      setStudents(allStudents);
-  //   } catch (error) {
-  //     console.error("Error fetching students:", error);
-  //   }
-  // };
-
-  // const fetchStudentEvents = async (query: string) => {
-  //   if (!token) return;
-
-  //   if (!query) {
-  //     setStudents([]);
-  //     return;
-  //   }
-
-  //   try {
-  //         const response = await axios.get<Student[]>(
-  //       `${url}/api/student/registeredEvents/${query}`,
-  //       {
-  //         headers: { Authorization: `Bearer ${token}` },
-  //       }
-  //     );
-      
-  //     if (response.data.length === 0) {
-  //       // setError("No students found matching your query.");
-  //       setStudents([]);
-  //     } else {
-  //       setStudents(response.data);
-  //       // setError("");
-  //     }
-      
-  //   } catch (error:any) {
-  //     console.error("Full error:", error);
-  //     console.error("Error response:", error.response?.data);
-  //     console.error("Error status:", error.response?.status);
-  //   }
-  // };
-
-  // const fetchStudentAttendance = async (rollNo: string, eventId: string) => {
-  //   if (!token) return false; 
-  
-  //   try {
-      
-  //     const response = await axios.get(
-  //       `${url}/api/attendance/putattendance`, 
-  //       {
-  //         headers: { Authorization: `Bearer ${token}` },
-  //         params: { roll_no: rollNo, event_id: eventId }, 
-  //       }
-  //     );
-  //     const attendanceData = response.data as AttendanceResponse;
-  //     return attendanceData[rollNo] ?? false; 
-  //   } catch (error) {
-  //     console.error('Error fetching attendance:', error);
-  //     return false;
-  //   }
-  // };
-  const handleAttendanceChange = async (rollNo: string, eventId: string,currentStatus: number) => {
-    //console.log("Sending data:", { roll_no: rollNo, event_id: eventId });
+  const handleAttendanceChange = async (rollNo: string, eventId: string, currentStatus: number) => {
     if (!token) return;   
     if (!rollNo || !eventId) {
-      console.error("Missing required fields:", { rollNo, eventId });
-      return;
+        console.error("Missing required fields:", { rollNo, eventId });
+        return;
+    }
+
+    const updatedStatus = currentStatus === 1 ? 0 : 1;
+    if (currentStatus === 1) {
+        const confirmed = window.confirm("want to mark absent?");
+        if (!confirmed) return; 
     }
 
     try {
-      const updatedStatus = currentStatus===1?0:1;
-      console.log("Sending data:", { roll_no: rollNo, event_id: eventId });
-      const response = await axios.post(
-        `${url}/api/attendance/putattendance`,
-        { roll_no: rollNo, event_id: eventId ,attended:updatedStatus},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+        console.log("Sending data:", { roll_no: rollNo, event_id: eventId, attendance: updatedStatus });
 
-      setStudents((prev)=>prev.map((student)=>
-      student.roll_no===rollNo && student.event===eventId ? {...student,attended:updatedStatus}:student));
-      console.log("API Response:", response.data);
+        const response = await axios.post(
+            `${url}/api/attendance/putattendance`,
+            { roll_no: rollNo, event_id: eventId, attendance: updatedStatus },
+            { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        
+        setStudents((prev) =>
+            prev.map((student) =>
+                student.roll_no === rollNo && student.event === eventId
+                    ? { ...student, attended: updatedStatus }
+                    : student
+            )
+        );
+
+        console.log("API Response:", response.data);
     } catch (error) {
-      console.error("Error updating attendance:", error);
+        console.error("Error updating attendance:", error);
     }
-     };
+};
 
    const handleFilterChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selected = event.target.value;
