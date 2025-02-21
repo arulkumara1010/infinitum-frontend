@@ -1,3 +1,4 @@
+
 @keyframes floatDots {
     0% {
       transform: translateY(0) translateX(0);
@@ -21,7 +22,7 @@
     height: 100vh;
     background-color: black;
     overflow: hidden;
-    z-index: -1;
+    z-index: 1;
   }
   
   .dot {
@@ -35,6 +36,10 @@
     animation: floatDots 3s infinite ease-in-out;
   }
   
+  .login-box {
+    position: relative;
+    z-index: 10; /* Ensure it's above the dots */
+  }
   /* Generate multiple dots at random positions */
   .dot:nth-child(1) { top: 20%; left: 10%; animation-duration: 4s; }
   .dot:nth-child(2) { top: 40%; left: 25%; animation-duration: 6s; }

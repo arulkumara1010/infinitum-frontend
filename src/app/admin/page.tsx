@@ -1,7 +1,7 @@
 "use client";
-const url="https://infinitum-website.onrender.com"
+const url = "https://infinitum-website.onrender.com";
 
-import { useState} from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 interface LoginResponse {
@@ -17,19 +17,22 @@ const AdminLogin = () => {
     setError("");
 
     try {
-      const response = await axios.post<LoginResponse>(`${url}/api/auth/admin/login`, {
-        username,
-        password,
-      });
+      const response = await axios.post<LoginResponse>(
+        `${url}/api/auth/admin/login`,
+        {
+          username,
+          password,
+        }
+      );
       const { token } = response.data;
       localStorage.setItem("isAdminLoggedIn", "true");
-      localStorage.setItem("auth_token", token); 
-      router.push("/admin/admindashboard"); 
-    } catch (error) {
-      setError("Invalid username or password");
+      localStorage.setItem("auth_token", token);
+      router.push("/admin/admindashboard");
+    } catch (error: unknown) {
+      setError("Invalid username or password" + error);
     }
   };
-   return (
+  return (
     <div className="min-h-screen flex items-center justify-center bg-[#1A1A2E] text-white">
       <div className="bg-[#16213E] p-8 rounded-xl shadow-lg w-96">
         <h2 className="text-2xl font-bold mb-6 text-center">Admin Login</h2>

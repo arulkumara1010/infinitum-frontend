@@ -1,5 +1,5 @@
 "use client";
-const url="https://infinitum-website.onrender.com"
+const url = "https://infinitum-website.onrender.com";
 console.log(url);
 
 import { useEffect, useState } from "react";
@@ -33,8 +33,9 @@ const AdminDashboard = () => {
     const isAuthenticated=localStorage.getItem("isAdminLoggedIn");
     // console.log(isAuthenticated);
     if (!isAuthenticated) {
-      router.replace("/admin");}
-  },[router]);
+      router.replace("/admin");
+    }
+  }, [router]);
 
 
   useEffect(() => {
@@ -67,7 +68,7 @@ const AdminDashboard = () => {
   // }, [students]);
 
   // useEffect(() => {
-    
+
   //   const fetchAllAttendance = async () => {
   //     const attendanceData: AttendanceResponse = {};
   //     for (const student of students) {
@@ -76,7 +77,7 @@ const AdminDashboard = () => {
   //     }
   //     setAttendance(attendanceData);
   //   };
-  
+
   //   if (students.length > 0) {
   //     fetchAllAttendance();
   //   }
@@ -201,7 +202,10 @@ const AdminDashboard = () => {
         <tbody>
           {students.length > 0 ? (
             students.map((student) => (
-              <tr key={`${student.roll_no}_${student.event}`} className="text-center">
+              <tr
+                key={`${student.roll_no}_${student.event}`}
+                className="text-center"
+              >
                 <td className="border p-2">{student.roll_no}</td>
                 <td className="border p-2">{student.student.name}</td>
                 <td className="border p-2">{student.student.email}</td>

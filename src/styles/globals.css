@@ -1,6 +1,14 @@
+@import './styles.css';
+@import './animations.css';
+
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
 
 @layer base {
   :root {
@@ -76,3 +84,15 @@
 }
 
 
+
+
+/* Hide scrollbar for Chrome, Safari and Edge */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
+}

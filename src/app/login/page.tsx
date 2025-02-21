@@ -2,29 +2,30 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-// import { signIn } from "next-auth/react";
+import { useAuth } from "@/lib/AuthContext"; // Import useAuth
 import "@/app/login/animations.css";
+import Navbar from "../components/navbar";
 
 const BACKEND_URL = "https://infinitum-website.onrender.com";
 
 export default function LoginPage() {
+  const { setAuthState } = useAuth(); // Access setAuthState from context
+
   const handleGoogleLogin = async () => {
     try {
       const response = await fetch(`${BACKEND_URL}/api/auth/google`);
-
       const data = await response.json();
 
       if (data.authUrl) {
-        window.location.href = data.authUrl; // Redirect user to Google OAuth
+        window.location.href = data.authUrl; // Redirect to Google OAuth
+      } else if (data.token) {
+        // If backend returns a token directly (after OAuth callback)
+        await setAuthState(data.token);
       } else {
-        console.error("Failed to get auth URL:", data.message);
+        console.error("Failed to get auth URL or token:", data.message);
       }
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error("Google Sign-in Error:", error.message);
-      } else {
-        console.error("Google Sign-in Error:", error);
-      }
+    } catch (error) {
+      console.error("Google Sign-in Error:", error);
     }
   };
 
@@ -44,6 +45,7 @@ export default function LoginPage() {
           ></div>
         ))}
       </div>
+      <Navbar />
 
       {/* Content Box */}
       <div className="relative z-10 bg-zinc-900 p-6 md:p-8 rounded-lg shadow-lg w-full max-w-xs sm:max-w-sm md:max-w-md">
