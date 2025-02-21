@@ -107,6 +107,7 @@ function FaqInfinitum2025() {
       linkedin: "https://www.linkedin.com/in/cseapsgtech/",
       instagram: "https://www.instagram.com/csea_psgtech/",
       contacts: [
+        { name: "Mithilesh", phone: "+91 88839 12299" },
         { name: "Arul Kumara", phone: "+91 86102 02823" },
         { name: "Sreeraghavan", phone: "+91 63857 86223" },
       ],
@@ -132,87 +133,71 @@ function FaqInfinitum2025() {
     },
   ];
 
-  return (
-    <section className="py-16 w-full bg-black">
-      <div className="container px-4 mx-auto">
-        <motion.div className="max-w-2xl mx-auto text-center mb-12">
-          <h2 className="text-3xl font-semibold mb-3 text-white">
-            Frequently Asked Questions
-          </h2>
-          <p className="text-sm text-gray-400">
-            Get all the answers about our tech fest!
-          </p>
-        </motion.div>
+    return (
+        <section className="py-16 w-full bg-black">
+            <div className="container px-4 mx-auto">
+                <motion.div className="max-w-2xl mx-auto text-center mb-12">
+                    <h2 className="text-3xl font-semibold mb-3 text-white">
+                        Frequently Asked Questions
+                    </h2>
+                    <p className="text-sm text-gray-400">
+                        Get all the answers about our tech fest!
+                    </p>
+                </motion.div>
 
-        <div className="max-w-2xl mx-auto space-y-2">
-          {faqs.map((faq, index) => (
-            <FAQItem key={index} {...faq} index={index} />
-          ))}
-        </div>
+                <div className="max-w-2xl mx-auto space-y-2">
+                    {faqs.map((faq, index) => (
+                        <FAQItem key={index} {...faq} index={index} />
+                    ))}
+                </div>
+                
+                <br /><br />
+                <motion.div className="text-center mb-8">
+                    <h2 className="text-3xl font-semibold text-white">Contact Us</h2>
+                    <p className="text-sm text-gray-400">Reach out to our team for any queries!</p>
+                </motion.div> 
 
-        <br />
-        <br />
-        <motion.div className="text-center mb-8">
-          <h2 className="text-3xl font-semibold text-white">Contact Us</h2>
-          <p className="text-sm text-gray-400">
-            Reach out to our team for any queries!
-          </p>
-        </motion.div>
+                <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-white">
+                    {contactsData.map((group, index) => (
+                        <div key={index} className="text-lg text-center">
+                            {/* Category Name with LinkedIn & Instagram Icons */}
+                            <div className="flex justify-center items-center gap-3 mb-4">
+                                <p className="font-semibold text-pink-500">{group.category}</p>
 
-        <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-white">
-          {contactsData.map((group, index) => (
-            <div key={index} className="text-lg text-center">
-              {/* Category Name with LinkedIn & Instagram Icons */}
-              <div className="flex justify-center items-center gap-3 mb-4">
-                <p className="font-semibold text-pink-500">{group.category}</p>
+                                {/* LinkedIn Icon */}
+                                <a href={group.linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-500 transition duration-200">
+                                    <Linkedin className="h-5 w-5" />
+                                </a>
 
-                {/* LinkedIn Icon */}
-                <a
-                  href={group.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-400 hover:text-blue-500 transition duration-200"
-                >
-                  <Linkedin className="h-5 w-5" />
-                </a>
+                                {/* Instagram Icon */}
+                                <a href={group.instagram} target="_blank" rel="noopener noreferrer" className="text-pink-400 hover:text-pink-500 transition duration-200">
+                                    <Instagram className="h-5 w-5" />
+                                </a>
+                            </div>
 
-                {/* Instagram Icon */}
-                <a
-                  href={group.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-pink-400 hover:text-pink-500 transition duration-200"
-                >
-                  <Instagram className="h-5 w-5" />
-                </a>
-              </div>
+                            {/* Contact List - Reduced Font Size */}
+                            <div className="flex flex-col gap-3">
+                                {group.contacts.map((contact, idx) => (
+                                    <div key={idx} className="flex justify-center items-center gap-3">
+                                        <p className="font-medium text-sm">{contact.name}</p>
 
-              {/* Contact List - Reduced Font Size */}
-              <div className="flex flex-col gap-3">
-                {group.contacts.map((contact, idx) => (
-                  <div
-                    key={idx}
-                    className="flex justify-center items-center gap-3"
-                  >
-                    <p className="font-medium text-sm">{contact.name}</p>
+                                        {/* Phone Icon with Clickable Number */}
+                                        <a href={`tel:${contact.phone}`} className="flex items-center gap-1 hover:text-blue-400 text-sm">
+                                            <Phone className="h-4 w-4 text-gray-400" />
+                                            {contact.phone}
+                                        </a>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </motion.div>
 
-                    {/* Phone Icon with Clickable Number */}
-                    <a
-                      href={`tel:${contact.phone}`}
-                      className="flex items-center gap-1 hover:text-blue-400 text-sm"
-                    >
-                      <Phone className="h-4 w-4 text-gray-400" />
-                      {contact.phone}
-                    </a>
-                  </div>
-                ))}
-              </div>
+
             </div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
+        </section>
+    );
 }
 
 export default FaqInfinitum2025;
+
