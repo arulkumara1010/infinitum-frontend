@@ -57,32 +57,7 @@ const AdminDashboard = () => {
   }, [token]);
 
 
-  // useEffect(() => {
-  //   if (students.length > 0) {
-  //     const initialAttendance: AttendanceResponse = {};
-  //     students.forEach((student) => {
-  //       initialAttendance[student.roll_no] = false; 
-  //     });
-  //     setAttendance(initialAttendance);
-  //   }
-  // }, [students]);
-
-  // useEffect(() => {
-
-  //   const fetchAllAttendance = async () => {
-  //     const attendanceData: AttendanceResponse = {};
-  //     for (const student of students) {
-  //       const status = await fetchStudentAttendance(student.id, student.event);
-  //       attendanceData[student.id] = status;
-  //     }
-  //     setAttendance(attendanceData);
-  //   };
-
-  //   if (students.length > 0) {
-  //     fetchAllAttendance();
-  //   }
-  // }, [students]);
-  const fetchStudentsById = async (eventId: string) => {
+   const fetchStudentsById = async (eventId: string) => {
     if (!token) return [];
     try {
       const response = await axios.get<Student[]>(`${url}/api/event/fetch/${eventId}`, {
@@ -178,14 +153,14 @@ const AdminDashboard = () => {
           </select>
         </div>
 
-        <div>
+        {/* <div>
           <label className="mr-5 font-semibold">Search:</label>
           <input
             type="text"
             placeholder="Enter Roll No or Name"
             className="border p-2 text-gray-800 bg-[#CCD6E0FC] rounded placeholder-gray-500"
           />
-        </div>
+        </div> */}
       </div>
 
       <table className="w-full border-collapse border border-black mt-11">
