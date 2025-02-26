@@ -18,9 +18,11 @@ interface Student {
 }
 
 const eventMap: Record<string, string> = {
-  "AI Story Quest": "1",
-  "Pandemic": "2",
-  "Family Feud": "3",
+  "Workshop:Ikigai in AI": "1",
+  "AI Story Quest": "2",
+  "Quiz Roulette": "3",
+  "The Pandemic":"4",
+  "Nexus-Hackathon":"5"
 };
 
 const AdminDashboard = () => {
