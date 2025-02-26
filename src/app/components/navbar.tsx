@@ -117,9 +117,10 @@ export default function Navbar() {
                 </div>
               ) : (
                 <>
-                  <Button asChild variant="outline">
-                    <Link href="/register">Register</Link>
-                  </Button>
+              <Button asChild className="w-full bg-white text-black hover:bg-[#D3D3D3] hover:text-black">
+  <Link href="/register">Register</Link>
+</Button>
+
                   <Button asChild>
                     <Link href="/login">Login</Link>
                   </Button>

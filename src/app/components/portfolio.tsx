@@ -38,13 +38,13 @@ export default function Portfolio() {
       },
       {
         id: 3,
-        title: "Family Feud",
+        title: "Quiz Roulette",
         category: "GHCC",
         image: "/e3.jpg",
         date: "March 8, 2025",
         location: "AIR Lab",
-        teamSize: "2-3 members",
-        shortDescription: "A team based trivia game fostering team work and quick thinking.",
+        teamSize: "3 members",
+        shortDescription: "The ultimate quiz Battle : Take the Risk, Bank the Reward!",
       },
       {
         id: 4,
