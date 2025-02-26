@@ -105,7 +105,7 @@ function FaqInfinitum2025() {
     {
       category: "CSEA",
       linkedin: "https://www.linkedin.com/in/cseapsgtech/",
-      instagram: "https://www.instagram.com/csea_psgtech/",
+      instagram: "https://www.instagram.com/cseapsgtech/",
       contacts: [
         { name: "Mithilesh", phone: "+91 88839 12299" },
         { name: "Arul Kumara", phone: "+91 86102 02823" },
@@ -116,7 +116,7 @@ function FaqInfinitum2025() {
       category: "The EYE",
       linkedin:
         "https://www.linkedin.com/company/theeye-csea/posts/?feedView=all",
-      instagram: "https://www.instagram.com/theeye_psgtech/",
+      instagram: "https://www.instagram.com/theeye.network/",
       contacts: [
         { name: "Lohith", phone: "+91 94881 25100" },
         { name: "Mehul", phone: "+91 86087 15000" },
@@ -125,7 +125,7 @@ function FaqInfinitum2025() {
     {
       category: "GHCC",
       linkedin: "https://www.linkedin.com/company/github-campus-club-psgtech/",
-      instagram: "https://www.instagram.com/ghcc_psgtech/",
+      instagram: "https://www.instagram.com/githubcampusclub.psgtech/",
       contacts: [
         { name: "Pon Manoj", phone: "+91 76038 34434" },
         { name: "Shashwath", phone: "+91 98456 77934" },
