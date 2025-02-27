@@ -8,6 +8,7 @@ import axios from "axios";
 
 interface Student {
   roll_no: string;
+  attended:number;
   student: {
     name: string;
     email: string;
@@ -16,25 +17,28 @@ interface Student {
   event: string;
 }
 
-interface AttendanceResponse {
-  [key: string]: boolean;
-}
+const eventMap: Record<string, string> = {
+  "Workshop:Ikigai in AI": "1",
+  "AI Story Quest": "2",
+  "Quiz Roulette": "3",
+  "The Pandemic":"4",
+  "Nexus-Hackathon":"5"
+};
 
 const AdminDashboard = () => {
-  const router = useRouter();
-  useEffect(() => {
-    const isAuthenticated = localStorage.getItem("isAdminLoggedIn");
+  const router=useRouter();
+  const [students, setStudents] = useState<Student[]>([]);
+  const [selectedEvent, setSelectedEvent] = useState<string>("0");
+  const [token, setToken] = useState<string>("");
+
+  useEffect(()=>{    
+    const isAuthenticated=localStorage.getItem("isAdminLoggedIn");
     // console.log(isAuthenticated);
     if (!isAuthenticated) {
       router.replace("/admin");
     }
   }, [router]);
 
-  const [students, setStudents] = useState<Student[]>([]);
-  const [selectedEvent, setSelectedEvent] = useState<string>("");
-  const [attendance, setAttendance] = useState<AttendanceResponse>({});
-  const [token, setToken] = useState<string>("");
-  // const [error, setError] = useState<string>("");
 
   useEffect(() => {
     const storedToken = localStorage.getItem("auth_token");
@@ -42,161 +46,96 @@ const AdminDashboard = () => {
       setToken(storedToken);
       console.log(storedToken);
     } else {
-      console.error("Token not found in localStorage!");
-      router.replace("/admin");
+      console.error("Token not found in localStorage");
+      router.replace("/admin"); 
     }
   }, [router]);
+
+
   useEffect(() => {
-    if (students.length > 0) {
-      const initialAttendance: AttendanceResponse = {};
-      students.forEach((student) => {
-        initialAttendance[student.roll_no] = false;
+    if (token) {
+      fetchAllStudents();
+    }
+  }, [token]);
+
+
+   const fetchStudentsById = async (eventId: string) => {
+    if (!token) return [];
+    try {
+      const response = await axios.get<Student[]>(`${url}/api/event/fetch/${eventId}`, {
+        headers: { Authorization: `Bearer ${token}` },
       });
-      setAttendance(initialAttendance);
+      console.log(response.data);
+      return response.data || [];
+    } catch (error) {
+      console.error(`Error fetching students for event ${eventId}:`, error);
+      return [];
     }
-  }, [students]);
-  // useEffect(() => {
+  };
 
-  //   const fetchAllAttendance = async () => {
-  //     const attendanceData: AttendanceResponse = {};
-  //     for (const student of students) {
-  //       const status = await fetchStudentAttendance(student.id, student.event);
-  //       attendanceData[student.id] = status;
-  //     }
-  //     setAttendance(attendanceData);
-  //   };
-
-  //   if (students.length > 0) {
-  //     fetchAllAttendance();
-  //   }
-  // }, [students]);
-
-  const fetchStudents = async (eventId: string) => {
-    if (!token) {
-      console.error("Token is missing. Cannot fetch students.");
-      return;
-    }
+  const fetchAllStudents = async () => {
     try {
-      console.log("Current token:", token);
-      const response = await axios.get<Student[]>(
-        `${url}/api/event/fetch/${eventId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      if (response.data) {
-        const formattedStudents = response.data.map((s) => ({
-          roll_no: s.roll_no,
-          student: {
-            name: s.student?.name || "N/A",
-            email: s.student?.email || "N/A",
-            phn_no: s.student?.phn_no || "N/A",
-          },
-          event: eventId,
-        }));
-        console.log("Formatted Students:", formattedStudents);
-        setStudents(formattedStudents);
+      const eventIds = Object.values(eventMap);
+      let allStudents: Student[] = [];
+      for (const id of eventIds) {
+        const studentsForEvent = await fetchStudentsById(id);
+        allStudents = [...allStudents, ...studentsForEvent.map(s => ({ ...s, event: id }))];
       }
+      setStudents(allStudents);
     } catch (error) {
-      console.error("Error fetching students:", error);
+      console.error("Error fetching all students:", error);
     }
   };
 
-  // const fetchStudentEvents = async (query: string) => {
-  //   if (!token) return;
-
-  //   if (!query) {
-  //     setStudents([]);
-  //     return;
-  //   }
-
-  //   try {
-  //         const response = await axios.get<Student[]>(
-  //       `${url}/api/student/registeredEvents/${query}`,
-  //       {
-  //         headers: { Authorization: `Bearer ${token}` },
-  //       }
-  //     );
-
-  //     if (response.data.length === 0) {
-  //       // setError("No students found matching your query.");
-  //       setStudents([]);
-  //     } else {
-  //       setStudents(response.data);
-  //       // setError("");
-  //     }
-
-  //   } catch (error:any) {
-  //     console.error("Full error:", error);
-  //     console.error("Error response:", error.response?.data);
-  //     console.error("Error status:", error.response?.status);
-  //   }
-  // };
-
-  // const fetchStudentAttendance = async (rollNo: string, eventId: string) => {
-  //   if (!token) return false;
-
-  //   try {
-
-  //     const response = await axios.get(
-  //       `${url}/api/attendance/putattendance`,
-  //       {
-  //         headers: { Authorization: `Bearer ${token}` },
-  //         params: { roll_no: rollNo, event_id: eventId },
-  //       }
-  //     );
-  //     const attendanceData = response.data as AttendanceResponse;
-  //     return attendanceData[rollNo] ?? false;
-  //   } catch (error) {
-  //     console.error('Error fetching attendance:', error);
-  //     return false;
-  //   }
-  // };
-  const handleAttendanceChange = async (rollNo: string, eventId: string) => {
-    console.log("Sending data:", { roll_no: rollNo, event_id: eventId });
-    if (!token) return;
+  const handleAttendanceChange = async (rollNo: string, eventId: string, currentStatus: number) => {
+    if (!token) return;   
     if (!rollNo || !eventId) {
-      console.error("Missing required fields:", { rollNo, eventId });
-      return;
+        console.error("Missing required fields:", { rollNo, eventId });
+        return;
+    }
+
+    const updatedStatus = currentStatus === 1 ? 0 : 1;
+    if (currentStatus === 1) {
+        const confirmed = window.confirm("want to mark absent?");
+        if (!confirmed) return; 
     }
 
     try {
-      const updatedStatus = !attendance[rollNo];
+        console.log("Sending data:", { roll_no: rollNo, event_id: eventId, attendance: updatedStatus });
 
-      setAttendance((prev) => ({
-        ...prev,
-        [rollNo]: updatedStatus,
-      }));
-      console.log("Sending data:", { roll_no: rollNo, event_id: eventId });
-      const response = await axios.post(
-        `${url}/api/attendance/putattendance`,
-        { roll_no: rollNo, event_id: eventId },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      console.log("API Response:", response.data);
+        const response = await axios.post(
+            `${url}/api/attendance/putattendance`,
+            { roll_no: rollNo, event_id: eventId, attendance: updatedStatus },
+            { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        
+        setStudents((prev) =>
+            prev.map((student) =>
+                student.roll_no === rollNo && student.event === eventId
+                    ? { ...student, attended: updatedStatus }
+                    : student
+            )
+        );
+
+        console.log("API Response:", response.data);
     } catch (error) {
-      console.error("Error updating attendance:", error);
+        console.error("Error updating attendance:", error);
     }
-  };
+};
 
-  const handleFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+   const handleFilterChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selected = event.target.value;
     setSelectedEvent(selected);
-    if (selected) {
-      fetchStudents(selected);
+
+    if (selected === "0") {
+      fetchAllStudents();
     } else {
-      setStudents([]);
+      const studentsForEvent = await fetchStudentsById(selected);
+      setStudents(studentsForEvent.map(s => ({ ...s, event: selected })));
     }
   };
-  // const formattedStudents = students.map((s) => ({
-  //   roll_no: s.roll_no,
-  //   name: s.student?.name || "N/A",
-  //   email: s.student?.email || "N/A",
-  //   phn_no: s.student?.phn_no || "N/A",
-  //   event: eventMap[s.event]||s.event,
-  // }));
 
-  // console.log("Formatted Students:", formattedStudents);
   return (
     <div className="min-h-screen p-6 bg-[#1A1A2E] text-white">
       <h1 className="text-2xl font-bold mt-14">Admin Dashboard</h1>
@@ -208,31 +147,22 @@ const AdminDashboard = () => {
             className="border p-2 text-black bg-[#CCD6E0FC] rounded"
             onChange={handleFilterChange}
             value={selectedEvent}
-          >
-            <option key="default" value="">
-              Select an event
-            </option>
-            <option key="1234" value="1234">
-              AI Story Quest
-            </option>
-            <option key="2" value="2">
-              Pandemic
-            </option>
-            <option key="3" value="3">
-              Family Feud
-            </option>
+            >
+            <option key="default" value="0">Select an event</option>
+            {Object.entries(eventMap).map(([name, id]) => (
+              <option key={id} value={id}>{name}</option>
+            ))}
           </select>
         </div>
 
-        <div>
+        {/* <div>
           <label className="mr-5 font-semibold">Search:</label>
           <input
             type="text"
             placeholder="Enter Roll No or Name"
             className="border p-2 text-gray-800 bg-[#CCD6E0FC] rounded placeholder-gray-500"
-            // onChange={(e) => fetchStudentEvents(e.target.value)}
           />
-        </div>
+        </div> */}
       </div>
 
       <table className="w-full border-collapse border border-black mt-11">
@@ -262,9 +192,9 @@ const AdminDashboard = () => {
                   <input
                     type="checkbox"
                     className="w-5 h-5 border-2 border-white bg-white checked:bg-black checked:border-black rounded transition-all"
-                    checked={attendance[student.roll_no] || false}
+                    checked={student.attended===1}
                     onChange={() =>
-                      handleAttendanceChange(student.roll_no, student.event)
+                      handleAttendanceChange(student.roll_no,student.event,student.attended)
                     }
                   />
                 </td>
