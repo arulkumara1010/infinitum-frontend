@@ -52,6 +52,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUserProfile(response.data);
     } catch (error) {
       console.error("Error fetching profile:", error);
+      setIsAuthenticated(false);
     }
   };
 

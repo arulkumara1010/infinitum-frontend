@@ -15,7 +15,14 @@ interface Student {
   };
   event: string;
 }
-
+interface GeneralRegistration {
+  sno: number;
+  roll_no: string;
+  name: string;
+  email: string;
+  phn_no: string;
+  referral: string | null;
+}
 interface AttendanceResponse {
   [key: string]: boolean;
 }
@@ -32,6 +39,7 @@ const AdminDashboard = () => {
 
   const [students, setStudents] = useState<Student[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<string>("");
+  const [generalRegistrations, setGeneralRegistrations] = useState<GeneralRegistration[]>([]);
   const [attendance, setAttendance] = useState<AttendanceResponse>({});
   const [token, setToken] = useState<string>("");
   // const [error, setError] = useState<string>("");
@@ -76,25 +84,38 @@ const AdminDashboard = () => {
       return;
     }
     try {
-      //console.log("Current token:", token);
-      const response = await axios.get<Student[]>(
-        `${url}/api/event/fetch/${eventId}`,
-        {
+      let response;
+      if (eventId === "general") {
+        response = await axios.get<GeneralRegistration[]>(`${url}/api/event/general`, {
           headers: { Authorization: `Bearer ${token}` },
+        });
+        if (response.data) {
+          const formatted = response.data.map((s) => ({
+            sno: s.sno,
+            roll_no: s.roll_no || "N/A",
+            name: s.name || "N/A",
+            email: s.email || "N/A",
+            phn_no: s.phn_no || "N/A",
+            referral: s.referral || "N/A",
+          }));
+          setGeneralRegistrations(formatted);
         }
-      );
-      if (response.data) {
-        const formattedStudents = response.data.map((s) => ({
-          roll_no: s.roll_no,
-          student: {
-            name: s.student?.name || "N/A",
-            email: s.student?.email || "N/A",
-            phn_no: s.student?.phn_no || "N/A",
-          },
-          event: eventId,
-        }));
-        //console.log("Formatted Students:", formattedStudents);
-        setStudents(formattedStudents);
+      } else {
+        response = await axios.get<Student[]>(`${url}/api/event/fetch/${eventId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (response.data) {
+          const formattedStudents = response.data.map((s) => ({
+            roll_no: s.roll_no,
+            student: {
+              name: s.student?.name || "N/A",
+              email: s.student?.email || "N/A",
+              phn_no: s.student?.phn_no || "N/A",
+            },
+            event: eventId,
+          }));
+          setStudents(formattedStudents);
+        }
       }
     } catch (error) {
       console.error("Error fetching students:", error);
@@ -252,7 +273,26 @@ const AdminDashboard = () => {
           </tr>
         </thead>
         <tbody>
-          {students.length > 0 ? (
+          {selectedEvent === "general" ? (
+            generalRegistrations.length > 0 ? (
+              generalRegistrations.map((registration) => (
+                <tr key={registration.roll_no} className="text-center">
+                  <td className="border p-2">{registration.roll_no}</td>
+                  <td className="border p-2">{registration.name}</td>
+                  <td className="border p-2">{registration.email}</td>
+                  <td className="border p-2">{registration.phn_no}</td>
+                  <td className="border p-2">General Registration</td>
+                  
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={6} className="border p-2 text-center">
+                  No registrations found
+                </td>
+              </tr>
+            )
+          ) : students.length > 0 ? (
             students.map((student) => (
               <tr
                 key={`${student.roll_no}_${student.event}`}
@@ -287,5 +327,4 @@ const AdminDashboard = () => {
     </div>
   );
 };
-
 export default AdminDashboard;
