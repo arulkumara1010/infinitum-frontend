@@ -185,13 +185,9 @@ function AuthButtons({
             asChild
             className="bg-white text-black hover:bg-[#D3D3D3] hover:text-black"
           >
-            <Link href="/register">Register</Link>
+            <Link href="/Dashboard">Event TimeLine</Link>
           </Button>
-          <Button asChild>
-            <Link href="/login" className="text-black">
-              Login
-            </Link>
-          </Button>
+          
         </>
       )}
     </div>
